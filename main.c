@@ -1,3 +1,3 @@
-//
-// Created by HIM on 28/03/2024.
-//
+#include <stdio.h>
+
+#include "functions.h"
