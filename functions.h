@@ -9,6 +9,13 @@
  * @param1 : Column title
  * @return : Pointer to created column
  */
+typedef struct
+{
+    char* titre;
+    int TP;
+    int TL;
+    int* donnee;
+}COLUMN;
 
 COLUMN *create_column(char* title);
 
