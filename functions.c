@@ -23,7 +23,7 @@ return new_column;
 int insert_value(COLUMN* col, int value)
 {
     int retour = 1;
-    if (col->TP - col->TL == 0)
+    if ((col->TP - col->TL == 0) || (col->donnee == NULL) )
     {
 
         if (col->donnee == NULL)
@@ -49,4 +49,14 @@ int insert_value(COLUMN* col, int value)
         retour = 0;
     }
     return retour;
+}
+
+/**
+* @brief : Free allocated memory
+* @param1 : Pointer to a column
+*/
+void delete_column(COLUMN **col)
+{
+    free((*col)->donnee);
+    free(*col);
 }
