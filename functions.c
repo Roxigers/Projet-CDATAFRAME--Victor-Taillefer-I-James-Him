@@ -29,6 +29,7 @@ int insert_value(COLUMN* col, int value)
 
         if (col->donnee == NULL)
         {
+            /** allocation en cas de création d'espace et ajout de la variable */
             col->donnee = malloc((col->TP+256)*sizeof(int));
             col->TP += 256;
             col->donnee[col->TL] = value;
@@ -36,6 +37,7 @@ int insert_value(COLUMN* col, int value)
         }
         else
         {
+            /** reallocatoin lorsqu'il n'y a plus de place et ajout de la variable */
             realloc(col->donnee, (col->TP+256)*sizeof(int));
 
             col->TP += 256;
@@ -45,9 +47,11 @@ int insert_value(COLUMN* col, int value)
     }
     else
     {
+        /** ajout de la variable si il n'y a pas besoin d'allocation */
         col->donnee[col->TL] = value;
         col->TL += 1;
     }
+    /** verrification si le malloc ou realloc */
     if (col->donnee == NULL)
     {
         retour = 0;
@@ -76,3 +80,60 @@ void print_col(COLUMN* col)
     for(int i=0;i<(col->TL);i++)
         printf("[%d] %d\n",i,col->donnee[i]);
 }
+
+/**Retourner le nombre de d’occurrences d’une valeur x (x donné en paramètre).*/
+
+int nbr_occurence(COLUMN* col, int x)
+{
+    int cpt=0;
+    for (int i=0;i<col->TL;i++)
+        {
+        if (col->donnee[i] == x)
+            {
+            cpt++;
+            }
+        }
+    return cpt;
+}
+
+/**Retourner la valeur présente à la position x (x donné en paramètre).*/
+
+int nbr_position(COLUMN* col, int x)
+{
+    int nombre;
+    nombre = col->donnee[x];
+    return nombre;
+}
+
+/**Retourner le nombre de valeurs qui sont supérieures à x (x donné en paramètre).*/
+
+int nbr_occurence_sup(COLUMN* col, int x)
+{
+    int cpt=0;
+    for (int i=0;i<col->TL;i++)
+        {
+        if (col->donnee[i] > x)
+            {
+            cpt++;
+            }
+        }
+    return cpt;
+}
+
+/** Retourner le nombre de valeurs qui sont inférieures à x (x donné en paramètre).*/
+
+int nbr_occurence_inf(COLUMN* col, int x)
+{
+    int cpt=0;
+    for (int i=0;i<col->TL;i++)
+        {
+        if (col->donnee[i] < x)
+            {
+            cpt++;
+            }
+        }
+    return cpt;
+}
+
+
+

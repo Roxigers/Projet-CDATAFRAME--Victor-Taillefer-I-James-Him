@@ -13,13 +13,16 @@ int main()
         printf("Value added successfully to my column\n");
     else
         printf("Error adding value to my column\n");
-    print_col(col);
     val = 52;
     if (insert_value(col, val))
         printf("Value added successfully to my column\n");
     else
         printf("Error adding value to my column\n");
     print_col(col);
+    printf("%d\n",nbr_occurence(col, 5));
+    printf("%d\n",nbr_position(col, 1));
+    printf("%d\n",nbr_occurence_sup(col,4));
+    printf("%d\n",nbr_occurence_inf(col,6));
     delete_column(&col);
     return 0;
 }
