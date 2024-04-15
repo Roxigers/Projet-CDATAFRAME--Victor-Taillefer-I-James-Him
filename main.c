@@ -29,8 +29,8 @@ int main()
     printf("%d\n",nbr_occurence_inf(col,6));
     delete_column(&col);
 
-    Cdataframe *dataframe = create_Cdataframe();
-    if (dataframe == NULL){  /**verifie qu'il a été créer ou pas**/
+    Cdataframe *df = create_Cdataframe();
+    if (df == NULL){  /**verifie qu'il a été créer ou pas**/
         printf("Error creating Cdataframe\n");
         return 1;
     }
@@ -41,10 +41,14 @@ int main()
     printf("Enter the number of columns : ");
     scanf("%d",&nb_columns);
 
-    insert_value_Cdata (dataframe, nb_rows, nb_columns);
-    for (int i = 0; i < dataframe->nb_column; i++) {
-        printf("Column %d: %s\n", i, dataframe->column[i]->titre);
-        print_col(dataframe->column[i]);
+    insert_value_Cdata (df, nb_rows, nb_columns);
+    for (int i = 0; i < df->nb_column; i++) {
+        printf("Column %d: %s\n", i, df->column[i]->titre);
+        print_col(df->column[i]);
     }
+
+    int values[2][4] = {{1, 2, 3,4}, {5, 6, 7, 8}};
+    insert_value_endur(df, 2, 4, values);
+
     return 0;
 }

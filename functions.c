@@ -180,3 +180,13 @@ void insert_value_Cdata (Cdataframe *Cdata, int nb_rows, int nb_columns)
     }
 }
 
+void insert_value_endur(Cdataframe *Cdata, int nb_rows, int nb_columns, int **values) {
+    for (int i = 0; i < nb_columns; i++) {
+        COLUMN *new_column = create_column("Column");
+        add_column(Cdata, new_column);
+
+        for (int j = 0; j < nb_rows; j++) {
+            insert_value(Cdata->column[i], values[j][i]);
+        }
+    }
+}
