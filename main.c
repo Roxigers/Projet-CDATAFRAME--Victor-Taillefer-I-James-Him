@@ -28,5 +28,23 @@ int main()
     printf("%d\n",nbr_occurence_sup(col,4));
     printf("%d\n",nbr_occurence_inf(col,6));
     delete_column(&col);
+
+    Cdataframe *dataframe = create_Cdataframe();
+    if (dataframe == NULL){  /**verifie qu'il a été créer ou pas**/
+        printf("Error creating Cdataframe\n");
+        return 1;
+    }
+
+    int nb_rows, nb_columns;
+    printf("Enter the number of rows : ");
+    scanf("%d",&nb_rows);
+    printf("Enter the number of columns : ");
+    scanf("%d",&nb_columns);
+
+    insert_value_Cdata (dataframe, nb_rows, nb_columns);
+    for (int i = 0; i < dataframe->nb_column; i++) {
+        printf("Column %d: %s\n", i, dataframe->column[i]->titre);
+        print_col(dataframe->column[i]);
+    }
     return 0;
 }

@@ -9,6 +9,7 @@
  * @param1 : Column title
  * @return : Pointer to created column
  */
+#define TAILLE 50;
 typedef struct
 {
     char* titre;
@@ -38,6 +39,10 @@ int nbr_occurence_sup(COLUMN* col, int x);
 
 int nbr_occurence_inf(COLUMN* col, int x);
 
+int add_column (Cdataframe *Cdata, COLUMN *new_column);
+
 Cdataframe *create_Cdataframe();
+
+void insert_value_Cdata (Cdataframe *Cdata, int nb_rows, int nb_columns);
 
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H

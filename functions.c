@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "functions.h"
 #include <string.h>
+
 COLUMN *create_column(char* title)
 {
     COLUMN* new_column = (COLUMN*) malloc(sizeof(COLUMN));
@@ -136,10 +137,46 @@ int nbr_occurence_inf(COLUMN* col, int x)
     return cpt;
 }
 
+int add_column (Cdataframe *Cdata, COLUMN *new_column)
+{
+    COLUMN **new_columns = realloc(Cdata->column, (Cdata-> nb_column + 1) * sizeof(COLUMN *));
+    Cdata->column = new_columns;
+    Cdata->column[Cdata->nb_column] = new_column;
+    Cdata->nb_column++;
+    return 1;
+}
+
 Cdataframe *create_Cdataframe()
 {
-    Cdataframe *new_Cdataframe = (Cdataframe*) malloc(sizeof(Cdataframe));
-    new_Cdataframe ->column = NULL;
-    new_Cdataframe -> nb_column = 0;
+    Cdataframe *Cdataframe = malloc(sizeof(Cdataframe));
+    Cdataframe ->column = NULL;
+    Cdataframe -> nb_column = 0;
+    return Cdataframe;
+}
+
+void insert_value_Cdata (Cdataframe *Cdata, int nb_rows, int nb_columns)
+{
+    char title[50];
+    int value=0;
+    for (int i=0; i < nb_columns; i++)
+    {
+        printf("title %d", i);
+        scanf("%s", title);
+
+        COLUMN *new_column = create_column(title);
+        add_column(Cdata, new_column);
+    }
+    for (int i = 1; i < nb_rows; i++) {
+        printf("Enter values for row %d:\n", i);
+        for (int j = 0; j < nb_columns; j++) {
+            printf("Enter value for column %d: ", j);
+            scanf("%d", &value);
+
+            if (!insert_value(Cdata->column[j], value)) { /**si ca a pas marcher il retourne l'inverse du return**/
+                printf("Error adding value to column %d\n", j);
+                return;
+            }
+        }
+    }
 }
 
