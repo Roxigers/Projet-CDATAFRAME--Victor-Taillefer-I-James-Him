@@ -139,7 +139,7 @@ numéro de ligne et de colonne*/
     printf("Enter a value for x");
     scanf("%d",&x);
     printf("Number of cells containing the value %d : %d",x, nbr_occurence(df, x));
-    printf("Number of cells greater than the value %d : %d",x, nbr_occurence_sup(df,x))
+    printf("Number of cells greater than the value %d : %d",x, nbr_occurence_sup(df,x));
     printf("Number of cells less than the value %d : %d",x, nbr_occurence_inf(df,x));
 
     return 0;
