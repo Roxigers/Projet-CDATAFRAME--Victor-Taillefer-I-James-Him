@@ -45,4 +45,6 @@ Cdataframe *create_Cdataframe();
 
 void insert_value_Cdata (Cdataframe *Cdata, int nb_rows, int nb_columns);
 
+void insert_value_endur(Cdataframe *Cdata, int nb_rows, int nb_columns, int **values);
+
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H
