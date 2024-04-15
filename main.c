@@ -50,5 +50,20 @@ int main()
     int values[2][4] = {{1, 2, 3,4}, {5, 6, 7, 8}};
     insert_value_endur(df, 2, 4, values);
 
+    int lim_rows = 0;
+    while (lim_rows <= 0)
+    {
+        printf("Enter the row limit value : ");
+        scanf("%d",&lim_rows);
+    }
+    lim_rows_display(df, lim_rows);
+
+    int lim_column = 0;
+    while (lim_column <= 0)
+    {
+        printf("Enter the row limit value : ");
+        scanf("%d",&lim_column);
+    }
+    lim_column_display(df, lim_rows);
     return 0;
 }

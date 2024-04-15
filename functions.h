@@ -47,4 +47,8 @@ void insert_value_Cdata (Cdataframe *Cdata, int nb_rows, int nb_columns);
 
 void insert_value_endur(Cdataframe *Cdata, int nb_rows, int nb_columns, int **values);
 
+void lim_rows_display (Cdataframe *Cdata, int lim_rows);
+
+void lim_column_display(Cdataframe *Cdata, int lim_column);
+
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H

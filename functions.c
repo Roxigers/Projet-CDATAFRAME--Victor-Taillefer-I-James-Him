@@ -190,3 +190,38 @@ void insert_value_endur(Cdataframe *Cdata, int nb_rows, int nb_columns, int **va
         }
     }
 }
+
+void lim_rows_display (Cdataframe *Cdata, int lim_rows)
+{
+    for ( int i =0; i<Cdata->nb_column;i++)
+    {
+        printf("%s    ", Cdata->column[i]->titre);
+    }
+    printf("\n");
+
+    for (int i=0;i<lim_rows && i < Cdata-> column[0]->TL;i++)
+    {
+        for (int j =0; j<Cdata->nb_column; j++)
+        {
+            printf("%d   ", Cdata->column[j]->donnee[i]);
+        }
+        printf("\n");
+    }
+}
+
+void lim_column_display (Cdataframe *Cdata, int lim_column)
+{
+    for ( int i =0; i<Cdata->nb_column;i++)
+    {
+        printf("%s    ", Cdata->column[i]->titre);
+    }
+    printf("\n");
+    for (int i = 0; i < Cdata->column[0]->TL;i++)
+    {
+        for (int j=0; j< lim_column; j++)
+        {
+            printf("%d   ", Cdata->column[j]->donnee[i])
+        }
+        printf("\n");
+    }
+}
