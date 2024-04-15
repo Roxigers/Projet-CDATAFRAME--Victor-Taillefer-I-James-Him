@@ -9,7 +9,7 @@
  * @param1 : Column title
  * @return : Pointer to created column
  */
-#define TAILLE 50;
+
 typedef struct
 {
     char* titre;

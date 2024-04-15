@@ -3,9 +3,8 @@
 //
 
 #include <stdio.h>
-
-
 #include "functions.h"
+#include <string.h>
 
 int main()
 {
@@ -65,5 +64,83 @@ int main()
         scanf("%d",&lim_column);
     }
     lim_column_display(df, lim_rows);
+
+
+
+    /**Ajouter une colonne au CDataframe**/
+    COLUMN *new_column = create_column("Nouveau Titre");
+    add_column(df,new_column);
+
+    /**Supprimer une colonne du Cdataframe**/
+    int column_value2 = 0;
+    while (column_value2 <= 0) {
+        printf("Enter the column  value : ");
+        scanf("%d", &column_value2);
+    }
+    delete_column(&df->column[column_value2]);
+
+    /**Renommer le titre d'une colonne du Cdataframe**/
+    int column_value3 = 0;
+    while (column_value3 <= 0)
+    {
+        printf("Enter the column  value : ");
+        scanf("%d",&column_value3);
+    }
+    strcpy(df->column[column_value3]->titre, "Nouveau Titre");
+
+    /**Vérifier l'existence d'une valeur (recherche) dans le CDataframe**/
+    int search_value;
+    int cpt;
+    printf("Enter a desired value : ");
+    scanf("%d",&search_value);
+    cpt = nbr_occurence(df,search_value);
+    if (cpt != 0)
+    {
+        printf("The value exist");
+    }
+    else
+    {
+        printf("The value does not exist");
+    }
+
+    /**Accéder/remplacer la valeur se trouvant dans une cellule du CDataframe en utilisant son
+numéro de ligne et de colonne*/
+    int row_value = 0;
+    while (row_value <= 0)
+    {
+        printf("Enter the row value : ");
+        scanf("%d",&row_value);
+    }
+
+    int column_value4 = 0;
+    while (column_value4 <= 0)
+    {
+        printf("Enter the column  value : ");
+        scanf("%d",&column_value4);
+    }
+
+    int new_value;
+    printf("Enter the new value : ");
+    scanf("%d",&new_value);
+    df->column[column_value4]->donnee[row_value]= new_value;
+
+    /**afficher le nom des colonnes*/
+    for (int i = 0; i < df->nb_column; i++)
+    {
+        printf("Column %d: %s\n", i, df->column[i]->titre);
+    }
+
+    /**Affichage nombre de ligne et de colonne**/
+    printf("Number of rows : %d",df->column[0]->TL);
+    printf("Number of columns : %d",df->nb_column);
+
+    /**Donnée par rapport à x**/
+    int x;
+    printf("Enter a value for x");
+    scanf("%d",&x);
+    printf("Number of cells containing the value %d : %d",x, nbr_occurence(df, x));
+    printf("Number of cells greater than the value %d : %d",x, nbr_occurence_sup(df,x))
+    printf("Number of cells less than the value %d : %d",x, nbr_occurence_inf(df,x));
+
     return 0;
 }

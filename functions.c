@@ -220,7 +220,7 @@ void lim_column_display (Cdataframe *Cdata, int lim_column)
     {
         for (int j=0; j< lim_column; j++)
         {
-            printf("%d   ", Cdata->column[j]->donnee[i])
+            printf("%d   ", Cdata->column[j]->donnee[i]);
         }
         printf("\n");
     }
