@@ -6,6 +6,7 @@
 COLUMN *create_column(char* title)
 {
     COLUMN* new_column = (COLUMN*) malloc(sizeof(COLUMN));
+    new_column->titre = (char*) malloc(sizeof(title)+1);
     strcpy(new_column->titre, title);
     new_column->donnee = NULL;
     new_column->TP = 0;
@@ -160,7 +161,7 @@ void insert_value_Cdata (Cdataframe *Cdata, int nb_rows, int nb_columns)
     int value=0;
     for (int i=0; i < nb_columns; i++)
     {
-        printf("title %d", i);
+        printf("title %d : ", i);
         scanf("%s", title);
 
         COLUMN *new_column = create_column(title);
