@@ -62,9 +62,11 @@ int main()
         scanf("%d",&lim_column);
     }
     lim_column_display(df, lim_rows);
+
     //Ajouter une colonne au CDataframe
     COLUMN *new_column = create_column("Nouveau Titre");
     add_column(df,new_column);
+
     //Supprimer une colonne du Cdataframe
     int column_value2 = 0;
     while (column_value2 <= 0) {
@@ -72,7 +74,8 @@ int main()
         scanf("%d", &column_value2);
     }
     delete_column(&df->column[column_value2]);
-    /**Vérifier l'existence d'une valeur (recherche) dans le CDataframe**/
+
+    //Vérifier l'existence d'une valeur (recherche) dans le CDataframe
     int search_value;
     int cpt;
     printf("Enter a desired value : ");
@@ -86,7 +89,8 @@ int main()
     {
         printf("The value does not exist");
     }
-    /**Renommer le titre d'une colonne du Cdataframe**/
+
+    //Renommer le titre d'une colonne du Cdataframe
     int column_value3 = 0;
     while (column_value3 <= 0)
     {
@@ -94,8 +98,8 @@ int main()
         scanf("%d",&column_value3);
     }
     strcpy(df->column[column_value3]->titre, "Nouveau Titre");
-    /**Accéder/remplacer la valeur se trouvant dans une cellule du CDataframe en utilisant son
-numéro de ligne et de colonne*/
+
+    //Accéder/remplacer la valeur se trouvant dans une cellule du CDataframe en utilisant son numéro de ligne et de colonne
     int row_value = 0;
     while (row_value <= 0)
     {
@@ -114,17 +118,17 @@ numéro de ligne et de colonne*/
     scanf("%d",&new_value);
     df->column[column_value4]->donnee[row_value]= new_value;
 
-/**afficher le nom des colonnes*/
+//afficher le nom des colonnes
     for (int i = 0; i < df->nb_column; i++)
     {
         printf("Column %d: %s\n", i, df->column[i]->titre);
     }
 
-/**Affichage nombre de ligne et de colonne**/
+//Affichage nombre de ligne et de colonne
     printf("Number of rows : %d",df->column[0]->TL);
     printf("Number of columns : %d",df->nb_column);
 
-/**Donnée par rapport à x**/
+//Donnée par rapport à x
     int x;
     printf("Enter a value for x");
     scanf("%d",&x);
