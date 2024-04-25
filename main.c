@@ -51,8 +51,8 @@ int main()
         scanf("%d",&lim_rows);
     }
 
-    /**int values[2][4] = {{1, 2, 3,4}, {5, 6, 7, 8}};
-    insert_value_endur(df, 2, 4, values); **/
+    //int values[2][4] = {{1, 2, 3,4}, {5, 6, 7, 8}};
+   // insert_value_endur(df, 2, 4, values);
 
     lim_rows_display(df, lim_rows);
     int lim_column = 0;

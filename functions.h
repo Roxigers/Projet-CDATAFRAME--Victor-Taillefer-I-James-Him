@@ -45,7 +45,7 @@ Cdataframe *create_Cdataframe();
 
 void insert_value_Cdata (Cdataframe *Cdata, int nb_rows, int nb_columns);
 
-void insert_value_endur(Cdataframe *Cdata, int nb_rows, int nb_columns, int **values);
+void insert_value_endur(Cdataframe *Cdata, int nb_rows, int nb_columns, int (*values)[4]);
 
 void lim_rows_display (Cdataframe *Cdata, int lim_rows);
 
