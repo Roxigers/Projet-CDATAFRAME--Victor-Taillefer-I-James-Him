@@ -34,107 +34,88 @@ int main()
         printf("Error creating Cdataframe\n");
         return 1;
     }
-    int nb_rows, nb_columns;
-    printf("Enter the number of rows : ");
-    scanf("%d",&nb_rows);
-    printf("Enter the number of columns : ");
-    scanf("%d",&nb_columns);
-    insert_value_Cdata (df, nb_rows, nb_columns);
-    for (int i = 0; i < df->nb_column; i++) {
-        printf("Column %d: %s\n", i, df->column[i]->titre);
-        print_col(df->column[i]);
-    }
-    int lim_rows = 0;
-    while (lim_rows <= 0)
-    {
-        printf("Enter the row limit value : ");
-        scanf("%d",&lim_rows);
-    }
-
     //int values[2][4] = {{1, 2, 3,4}, {5, 6, 7, 8}};
    // insert_value_endur(df, 2, 4, values);
 
-    lim_rows_display(df, lim_rows);
-    int lim_column = 0;
-    while (lim_column <= 0)
-    {
-        printf("Enter the row limit value : ");
-        scanf("%d",&lim_column);
+    int nombre = 0;
+
+    while (1) { // Boucle infinie
+        printf("\nVoici le menu : \n");
+        printf("0) Quitter\n");
+        printf("1) Remplissage du CDataframe à partir de saisies utilisateurs\n");
+        printf("2) Afficher tout le CDataframe\n");
+        printf("3) Afficher une partie des lignes du CDataframe selon une limite fournie par l'utilisateur\n");
+        printf("4) Afficher une partie des colonnes du CDataframe selon une limite fournie par l'utilisateur\n");
+        printf("5) Ajouter une ligne de valeurs au CDataframe\n");
+        printf("6) Supprimer une ligne de valeurs du CDataframe\n");
+        printf("7) Ajouter une colonne au CDataframe\n");
+        printf("8) Supprimer une colonne du CDataframe\n");
+        printf("9) Renommer le titre d'une colonne du CDataframe\n");
+        printf("10) Vérifier l'existence d'une valeur (recherche) dans le CDataframe\n");
+        printf("11) Accéder/remplacer la valeur se trouvant dans une cellule du CDataframe\n");
+        printf("12) Afficher les noms des colonnes\n");
+        printf("13) Afficher le nombre de lignes et de colonnes\n");
+        printf("14) Analyser une valeur x\n");
+        printf("\nSaisissez un nombre : ");
+
+        scanf("%d", &nombre);
+
+        switch (nombre) {
+            case 0:
+                // Quitter le programme
+                return 0;
+            case 1:
+                insert_values_user(df);
+                break;
+            case 2:
+                display_CDataframe(df);
+                break;
+            case 3:
+                lim_rows_display(df);
+                break;
+            case 4:
+                lim_column_display(df);
+                break;
+            case 5:
+                printf("Pas encore fait\n");
+                break;
+            case 6:
+                printf("Pas encore fait\n");
+                break;
+            case 7:
+                add_column(df);
+                break;
+            case 8: {
+                int column_value = 0;
+                while (column_value <= 0) {
+                    printf("Enter the column value : ");
+                    scanf("%d", &column_value);
+                }
+                delete_column(&df->column[column_value]);
+                break;
+            }
+            case 9:
+                nouveau_titre(df);
+                break;
+            case 10:
+                verifier_valeur_existante(df);
+                break;
+            case 11:
+                modifier_valeur_cellule(df);
+                break;
+            case 12:
+                Affichage_nom_colonne(df);
+                break;
+            case 13:
+                Affichage_nbr_ligne_colonne(df);
+                break;
+            case 14:
+                analyser_valeur_x(df);
+                break;
+            default:
+                printf("La saisie est invalide.\n");
+                break;
+        }
     }
-    lim_column_display(df, lim_rows);
-
-    //Ajouter une colonne au CDataframe
-    COLUMN *new_column = create_column("Nouveau Titre");
-    add_column(df,new_column);
-
-    //Supprimer une colonne du Cdataframe
-    int column_value2 = 0;
-    while (column_value2 <= 0) {
-        printf("Enter the column  value : ");
-        scanf("%d", &column_value2);
-    }
-    delete_column(&df->column[column_value2]);
-
-    //Vérifier l'existence d'une valeur (recherche) dans le CDataframe
-    int search_value;
-    int cpt;
-    printf("Enter a desired value : ");
-    scanf("%d",&search_value);
-    cpt = nbr_occurence(df,search_value);
-    if (cpt != 0)
-    {
-        printf("The value exist");
-    }
-    else
-    {
-        printf("The value does not exist");
-    }
-
-    //Renommer le titre d'une colonne du Cdataframe
-    int column_value3 = 0;
-    while (column_value3 <= 0)
-    {
-        printf("Enter the column  value : ");
-        scanf("%d",&column_value3);
-    }
-    strcpy(df->column[column_value3]->titre, "Nouveau Titre");
-
-    //Accéder/remplacer la valeur se trouvant dans une cellule du CDataframe en utilisant son numéro de ligne et de colonne
-    int row_value = 0;
-    while (row_value <= 0)
-    {
-        printf("Enter the row value : ");
-        scanf("%d",&row_value);
-    }
-
-    int column_value4 = 0;
-    while (column_value4 <= 0)
-    {
-        printf("Enter the column  value : ");
-        scanf("%d",&column_value4);
-    }
-    int new_value;
-    printf("Enter the new value : ");
-    scanf("%d",&new_value);
-    df->column[column_value4]->donnee[row_value]= new_value;
-
-//afficher le nom des colonnes
-    for (int i = 0; i < df->nb_column; i++)
-    {
-        printf("Column %d: %s\n", i, df->column[i]->titre);
-    }
-
-//Affichage nombre de ligne et de colonne
-    printf("Number of rows : %d",df->column[0]->TL);
-    printf("Number of columns : %d",df->nb_column);
-
-//Donnée par rapport à x
-    int x;
-    printf("Enter a value for x");
-    scanf("%d",&x);
-    printf("Number of cells containing the value %d : %d",x, nbr_occurence(df, x));
-    printf("Number of cells greater than the value %d : %d",x, nbr_occurence_sup(df,x));
-    printf("Number of cells less than the value %d : %d",x, nbr_occurence_inf(df,x));
-
     return 0;
 }

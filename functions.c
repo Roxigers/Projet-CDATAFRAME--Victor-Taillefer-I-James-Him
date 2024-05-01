@@ -68,6 +68,7 @@ int insert_value(COLUMN* col, int value)
 */
 void delete_column(COLUMN **col)
 {
+
     free((*col)->donnee);
     free(*col);
 }
@@ -138,8 +139,13 @@ int nbr_occurence_inf(COLUMN* col, int x)
     return cpt;
 }
 
-int add_column (Cdataframe *Cdata, COLUMN *new_column)
+int add_column (Cdataframe *Cdata)
 {
+    char title[50];
+    printf("Enter title for column : ");
+    scanf("%s", title);
+    COLUMN *new_column = create_column(title);
+
     COLUMN **new_columns = realloc(Cdata->column, (Cdata-> nb_column + 1) * sizeof(COLUMN *));
     Cdata->column = new_columns;
     Cdata->column[Cdata->nb_column] = new_column;
@@ -155,36 +161,10 @@ Cdataframe *create_Cdataframe()
     return Cdataframe;
 }
 
-void insert_value_Cdata (Cdataframe *Cdata, int nb_rows, int nb_columns)
-{
-    char title[50];
-    int value=0;
-    for (int i=0; i < nb_columns; i++)
-    {
-        printf("title %d : ", i);
-        scanf("%s", title);
-
-        COLUMN *new_column = create_column(title);
-        add_column(Cdata, new_column);
-    }
-    for (int i = 1; i < nb_rows; i++) {
-        printf("Enter values for row %d:\n", i);
-        for (int j = 0; j < nb_columns; j++) {
-            printf("Enter value for column %d: ", j);
-            scanf("%d", &value);
-
-            if (!insert_value(Cdata->column[j], value)) { /**si ca a pas marcher il retourne l'inverse du return**/
-                printf("Error adding value to column %d\n", j);
-                return;
-            }
-        }
-    }
-}
 
 void insert_value_endur(Cdataframe *Cdata, int nb_rows, int nb_columns, int (*values)[4]) {
     for (int i = 0; i < nb_columns; i++) {
-        COLUMN *new_column = create_column("Column");
-        add_column(Cdata, new_column);
+        add_column(Cdata);
 
         for (int j = 0; j < nb_rows; j++) {
             insert_value(Cdata->column[i], values[j][i]);
@@ -192,8 +172,14 @@ void insert_value_endur(Cdataframe *Cdata, int nb_rows, int nb_columns, int (*va
     }
 }
 
-void lim_rows_display (Cdataframe *Cdata, int lim_rows)
+void lim_rows_display (Cdataframe *Cdata)
 {
+    int lim_rows = 0;
+    while (lim_rows <= 0)
+    {
+        printf("Enter the row limit value : ");
+        scanf("%d",&lim_rows);
+    }
     for ( int i =0; i<Cdata->nb_column;i++)
     {
         printf("%s    ", Cdata->column[i]->titre);
@@ -210,8 +196,15 @@ void lim_rows_display (Cdataframe *Cdata, int lim_rows)
     }
 }
 
-void lim_column_display (Cdataframe *Cdata, int lim_column)
+void lim_column_display (Cdataframe *Cdata)
 {
+    int lim_column = 0;
+    while (lim_column <= 0)
+    {
+        printf("Enter the row limit value : ");
+        scanf("%d",&lim_column);
+    }
+
     for ( int i =0; i<Cdata->nb_column;i++)
     {
         printf("%s    ", Cdata->column[i]->titre);
@@ -226,3 +219,120 @@ void lim_column_display (Cdataframe *Cdata, int lim_column)
         printf("\n");
     }
 }
+
+void insert_values_user(Cdataframe *Cdata) {
+    int nb_rows = 0, nb_columns = 0;
+
+    printf("Enter the number of rows: ");
+    scanf("%d", &nb_rows);
+
+    printf("Enter the number of columns: ");
+    scanf("%d", &nb_columns);
+
+    for (int i = 0; i < nb_columns; i++) {
+        add_column(Cdata);
+    }
+
+    for (int i = 0; i < nb_rows; i++) {
+        printf("Enter values for row %d:\n", i + 1);
+        for (int j = 0; j < nb_columns; j++) {
+            int value;
+            printf("Enter value for column %d: ", j);
+            scanf("%d", &value);
+            insert_value(Cdata->column[j], value);
+        }
+    }
+}
+
+void display_CDataframe(Cdataframe *Cdata)
+{
+    printf("Affichage du CDataframe : \n");
+    for (int i = 0; i< Cdata->nb_column;i++)
+    {
+        printf("%q \t", Cdata->column[i]->titre);
+    }
+    printf("\n");
+
+    for (int i = 0; i < Cdata->column[0]->TL; i++) //On suppose qu'elles ont toute le meme nombre de ligne
+    {
+        for (int j = 0; j<Cdata->nb_column;j++)
+        {
+            printf("%d\t",Cdata->column[j]->donnee[i]);
+        }
+        printf("\n");
+    }
+}
+
+void nouveau_titre(Cdataframe *df) {
+    int column_value = 0;
+    char nouveau_titre[50];
+    while (column_value <= 0)
+    {
+        printf("Enter the column value : ");
+        scanf("%d", &column_value);
+    }
+    printf("Nouveau Titre : ");
+    scanf("%s", nouveau_titre);
+    strcpy(df->column[column_value]->titre, nouveau_titre);
+}
+
+void verifier_valeur_existante(Cdataframe *df) {
+    int search_value;
+    int cpt;
+    printf("Enter a desired value : ");
+    scanf("%d", &search_value);
+    cpt = nbr_occurence(df, search_value);
+    if (cpt != 0) {
+        printf("The value exists.\n");
+    } else {
+        printf("The value does not exist.\n");
+    }
+}
+
+void modifier_valeur_cellule(Cdataframe *df) {
+    int row_value = 0;
+    while (row_value <= 0) {
+        printf("Enter the row value : ");
+        scanf("%d", &row_value);
+    }
+
+    int column_value = 0;
+    while (column_value <= 0) {
+        printf("Enter the column value : ");
+        scanf("%d", &column_value);
+    }
+
+    int new_value;
+    printf("Enter the new value : ");
+    scanf("%d", &new_value);
+
+    df->column[column_value]->donnee[row_value] = new_value;
+}
+
+void Affichage_nom_colonne(Cdataframe *df)
+{
+    for (int i = 0; i < df->nb_column; i++)
+    {
+        printf("Column %d: %s\n", i, df->column[i]->titre);
+    }
+}
+
+void Affichage_nbr_ligne_colonne(Cdataframe *df)
+{
+    printf("Number of rows : %d",df->column[0]->TL);
+    printf("Number of columns : %d",df->nb_column);
+}
+
+void analyser_valeur_x(Cdataframe *df) {
+    int x;
+    printf("Enter a value for x: ");
+    scanf("%d", &x);
+
+    for (int i = 0; i < df->nb_column; i++) {
+        printf("Column %d:\n", i);
+        printf("Number of cells containing the value %d : %d\n", x, nbr_occurence(df->column[i], x));
+        printf("Number of cells greater than the value %d : %d\n", x, nbr_occurence_sup(df->column[i], x));
+        printf("Number of cells less than the value %d : %d\n", x, nbr_occurence_inf(df->column[i], x));
+    }
+}
+
