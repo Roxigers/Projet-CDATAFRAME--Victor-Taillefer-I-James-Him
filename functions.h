@@ -65,4 +65,23 @@ void Affichage_nbr_ligne_colonne(Cdataframe *df);
 
 void analyser_valeur_x(Cdataframe *df);
 
+
+enum enum_type
+{
+    NULLVAL = 1, UNIT, INT, CHAR, FLOAT, DOUBLE, STRING, STRUCTURE
+};
+typedef enum enum_type ENUM_TYPE;
+
+union column_type{
+    unsigned int uint_value;
+    signed int int_value;
+    char char_value;
+    float float_value;
+    double double_value;
+    char* string_value;
+    void* struct_value;
+};
+typedef union column_type COL_TYPE ;
+
+
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H
