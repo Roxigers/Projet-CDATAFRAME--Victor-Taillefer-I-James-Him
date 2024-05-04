@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "functions.h"
 #include <string.h>
+#include <stdlib.h>
 
 int main()
 {
@@ -92,6 +93,11 @@ int main()
                     scanf("%d", &column_value);
                 }
                 delete_column(&df->column[column_value]);
+                for (int i = column_value+1; i< df->nb_column; i ++){
+                    df->column[i-1]= df->column[i];
+                }
+                df->nb_column--;
+                df->column = realloc(df->column, df->nb_column * sizeof(COLUMN *));
                 break;
             }
             case 9:

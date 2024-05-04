@@ -70,6 +70,7 @@ void delete_column(COLUMN **col)
 {
 
     free((*col)->donnee);
+    free((*col)->titre);
     free(*col);
 }
 
@@ -150,6 +151,14 @@ int add_column (Cdataframe *Cdata)
     Cdata->column = new_columns;
     Cdata->column[Cdata->nb_column] = new_column;
     Cdata->nb_column++;
+
+    printf("Enter values for the new column : \n");
+    for (int i = 0; i < Cdata->column[0]->TL;i++){
+        int value;
+        printf("Enter value for row %d: ", i + 1);
+        scanf("%d", &value);
+        insert_value(Cdata->column[Cdata->nb_column-1], value);
+    }
     return 1;
 }
 
@@ -201,7 +210,7 @@ void lim_column_display (Cdataframe *Cdata)
     int lim_column = 0;
     while (lim_column <= 0)
     {
-        printf("Enter the row limit value : ");
+        printf("Enter the column limit value : ");
         scanf("%d",&lim_column);
     }
 
@@ -249,7 +258,7 @@ void display_CDataframe(Cdataframe *Cdata)
     printf("Affichage du CDataframe : \n");
     for (int i = 0; i< Cdata->nb_column;i++)
     {
-        printf("%q \t", Cdata->column[i]->titre);
+        printf("%s \t", Cdata->column[i]->titre);
     }
     printf("\n");
 
@@ -320,7 +329,7 @@ void Affichage_nom_colonne(Cdataframe *df)
 void Affichage_nbr_ligne_colonne(Cdataframe *df)
 {
     printf("Number of rows : %d",df->column[0]->TL);
-    printf("Number of columns : %d",df->nb_column);
+    printf("\nNumber of columns : %d",df->nb_column);
 }
 
 void analyser_valeur_x(Cdataframe *df) {
