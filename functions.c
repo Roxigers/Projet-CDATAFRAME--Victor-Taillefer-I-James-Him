@@ -345,3 +345,21 @@ void analyser_valeur_x(Cdataframe *df) {
     }
 }
 
+// PARTI 2
+
+COLUMN *create_colum2(ENUM_TYPE type, char*title)
+{
+    COLUMN* new_column = (COLUMN*) malloc(sizeof(COLUMN));
+    if (new_column==NULL){
+        return NULL;
+    }
+    new_column->titre = (char*) malloc(sizeof(title)+1);
+    strcpy(new_column->titre, title);
+    new_column->donnee = NULL;
+    new_column->TP = 0;
+    new_column->TL = 0;
+    new_column->data = NULL;
+    new_column-> index = NULL;
+    new_column ->column_type = type;
+    return new_column;
+}
