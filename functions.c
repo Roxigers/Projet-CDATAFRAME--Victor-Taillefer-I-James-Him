@@ -337,6 +337,7 @@ void analyser_valeur_x(Cdataframe *df) {
     printf("Enter a value for x: ");
     scanf("%d", &x);
 
+
     for (int i = 0; i < df->nb_column; i++) {
         printf("Column %d:\n", i);
         printf("Number of cells containing the value %d : %d\n", x, nbr_occurence(df->column[i], x));

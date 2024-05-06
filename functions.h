@@ -15,6 +15,7 @@ NULLVAL = 1, UNIT, INT, CHAR, FLOAT, DOUBLE, STRING, STRUCTURE
 };
 typedef enum enum_type ENUM_TYPE;
 
+
 union column_type{
 unsigned int uint_value;
 signed int int_value;
