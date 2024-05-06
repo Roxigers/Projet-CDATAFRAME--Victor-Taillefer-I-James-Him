@@ -351,10 +351,15 @@ COLUMN *create_colum2(ENUM_TYPE type, char*title)
 {
     COLUMN* new_column = (COLUMN*) malloc(sizeof(COLUMN));
     if (new_column==NULL){
+        printf("Erreur allocation de la colonne");
         return NULL;
     }
     new_column->titre = (char*) malloc(sizeof(title)+1);
+    if (new_column->titre == NULL){
+        printf("Erreur allocation titre de la colonne");
+    }
     strcpy(new_column->titre, title);
+
     new_column->donnee = NULL;
     new_column->TP = 0;
     new_column->TL = 0;
@@ -362,4 +367,37 @@ COLUMN *create_colum2(ENUM_TYPE type, char*title)
     new_column-> index = NULL;
     new_column ->column_type = type;
     return new_column;
+}
+
+int insert_value2(COLUMN *col, void *value) {
+    // Vérification de la validité de la colonne
+    if (col == NULL) {
+        printf("La colonne n'est pas valide.\n");
+        return 0;
+    }
+
+    // Allocation initiale de mémoire si nécessaire
+    if (col->TP - col->TL == 0 || col->donnee == NULL) {
+        col->donnee = malloc(256 * sizeof(void *)); // n'importe qu'elle type de donnée
+        if (col->donnee == NULL) {
+            fprintf(stderr, "Erreur allocation de mémoire pour la colonne.\n");
+            return 0;
+        }
+        col->TP = 256;
+    }
+
+    // Réallocation de mémoire si nécessaire
+    if (col->TL == col->TP) {
+        void **temp = realloc(col->donnee, (col->TP + 256) * sizeof(void *)); //pointeur vers le pointeur generique
+        if (temp == NULL) {
+            printf("Erreur réallocation de mémoire pour la colonne.\n");
+            return 0;
+        }
+        col->donnee = temp;
+        col->TP += 256;
+    }
+
+    col->donnee[col->TL++] = *(int*)value; // on rajoute la valeur dans la colonne a la fin
+
+    return 1;
 }

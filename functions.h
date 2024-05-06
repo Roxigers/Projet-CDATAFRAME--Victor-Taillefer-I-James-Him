@@ -88,4 +88,6 @@ void analyser_valeur_x(Cdataframe *df);
 
 COLUMN *create_colum2(ENUM_TYPE type, char*title);
 
+int insert_value2(COLUMN *col, void *value)
+
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H
