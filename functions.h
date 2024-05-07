@@ -44,10 +44,12 @@ typedef struct {
 
 //PARTIE 2
 
-COLUMN *create_colum(ENUM_TYPE type, char*title);
+COLUMN *create_column(ENUM_TYPE type, char*title);
 
 int insert_value(COLUMN *col, void *value);
 
 void delete_column(COLUMN **col);
+
+void convert_value(COLUMN *col, unsigned long long int i, char *str, int size);
 
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H

@@ -5,7 +5,7 @@
 
 // PARTI 2
 
-COLUMN *create_colum(ENUM_TYPE type, char*title)
+COLUMN *create_column(ENUM_TYPE type, char*title)
 {
     COLUMN* new_column = (COLUMN*) malloc(sizeof(COLUMN));
     if (new_column==NULL){
@@ -89,16 +89,16 @@ void delete_column(COLUMN **col) {
             case INT:
                 free((*col)->data[i]);
                 break;
-            case CHAR:
-                free((*col)->data[i]);
-                break;
             case FLOAT:
                 free((*col)->data[i]);
                 break;
-            case DOUBLE:
+            case CHAR:
                 free((*col)->data[i]);
                 break;
             case STRING:
+                free((*col)->data[i]);
+                break;
+            case DOUBLE:
                 free((*col)->data[i]);
                 break;
             case STRUCTURE:
@@ -112,3 +112,34 @@ void delete_column(COLUMN **col) {
     free(*col);
 }
 
+/**
+ * @brief: Convert a value into a string
+ * @param1: Pointer to the column
+ * @param2: Position of the value in the data array
+ * @param3: The string in which the value will be written
+ * @param4: Maximum size of the string
+ */
+void convert_value(COLUMN *col, unsigned long long int i, char *str, int size)
+{
+    switch (col-> column_type)
+    {
+        case INT :
+            snprintf(str,size, "%d", *((int*)col->data[i]));
+            break;
+        case DOUBLE :
+            snprintf(str,size, "%lf", *((double*)col->data[i]));
+            break;
+        case FLOAT :
+            snprintf(str,size,"%f",*((float*)col->data[i]));
+            break;
+        case UNIT :
+            snprintf(str,size,"%u", *((unsigned int*)col->data[i]));
+            break;
+        case CHAR :
+            strncpy(str,(char*)col->data[i],size); //c'est deja un char donc pas besoin de e formater
+            break;
+        case STRUCTURE :
+            snprintf(str,size,"%p",col->data[i]);
+            break;
+    }
+}
