@@ -52,4 +52,12 @@ void delete_column(COLUMN **col);
 
 void convert_value(COLUMN *col, unsigned long long int i, char *str, int size);
 
+void print_col(COLUMN* col);
+
+int nbr_occurence(COLUMN* col, void* value);
+
+int nbr_occurence_sup(COLUMN* col, void* value);
+
+int nbr_occurence_inf(COLUMN* col, void* value);
+
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H

@@ -27,7 +27,7 @@ COLUMN *create_column(ENUM_TYPE type, char*title)
 }
 
 int insert_value(COLUMN *col, void *value) {
-    // Vérification de l'espace mémoire
+
     if (col->TL == col->TP) {
 
         if (col->TL == 0)
@@ -42,40 +42,43 @@ int insert_value(COLUMN *col, void *value) {
     }
 
     // Allocation de l'espace pour stocker la valeur
-    switch (col->column_type) {
-        case UNIT:
-            col->data[col->TL] = (unsigned int *)malloc(sizeof(unsigned int));
-            *((unsigned int *)col->data[col->TL]) = *((unsigned int *)value);
-            break;
-        case INT:
-            col->data[col->TL] = (int *)malloc(sizeof(int));
-            *((int *)col->data[col->TL]) = *((int *)value);
-            break;
-        case CHAR:
-            col->data[col->TL] = (char *)malloc(sizeof(char));
-            *((char *)col->data[col->TL]) = *((char *)value);
-            break;
-        case FLOAT:
-            col->data[col->TL] = (float *)malloc(sizeof(float));
-            *((float *)col->data[col->TL]) = *((float *)value);
-            break;
-        case DOUBLE:
-            col->data[col->TL] = (double *)malloc(sizeof(double));
-            *((double *)col->data[col->TL]) = *((double *)value);
-            break;
-        case STRING:
-            col->data[col->TL] = (char *)malloc(strlen((char *)value) + 1);
-            strcpy((char *)col->data[col->TL], (char *)value);
-            break;
-        case STRUCTURE:
-            col->data[col->TL] = (void *)malloc(sizeof(void));
-            *((void **)col->data[col->TL]) = *((void **)value);
-            break;
-        default:
-            printf("Type de colonne non pris en charge");
-            return 0;
+    if(value != NULL)
+    {
+        switch (col->column_type) {
+            case UNIT:
+                col->data[col->TL] = (unsigned int *)malloc(sizeof(unsigned int));
+                *((unsigned int *)col->data[col->TL]) = *((unsigned int *)value);
+                break;
+            case INT:
+                col->data[col->TL] = (int *)malloc(sizeof(int));
+                *((int *)col->data[col->TL]) = *((int *)value);
+                break;
+            case CHAR:
+                col->data[col->TL] = (char *)malloc(sizeof(char));
+                *((char *)col->data[col->TL]) = *((char *)value);
+                break;
+            case FLOAT:
+                col->data[col->TL] = (float *)malloc(sizeof(float));
+                *((float *)col->data[col->TL]) = *((float *)value);
+                break;
+            case DOUBLE:
+                col->data[col->TL] = (double *)malloc(sizeof(double));
+                *((double *)col->data[col->TL]) = *((double *)value);
+                break;
+            case STRING:
+                col->data[col->TL] = (char *)malloc(strlen((char *)value) + 1);
+                strcpy((char *)col->data[col->TL], (char *)value);
+                break;
+            case STRUCTURE:
+                col->data[col->TL] = (void *)malloc(sizeof(void));
+                *((void **)col->data[col->TL]) = *((void **)value);
+                break;
+        }
     }
-
+    else
+    {
+        col->data[col->TL]= NULL;
+    }
     col->TL++;
     return 1;
 }
@@ -121,6 +124,11 @@ void delete_column(COLUMN **col) {
  */
 void convert_value(COLUMN *col, unsigned long long int i, char *str, int size)
 {
+    if (col->data[i]== NULL)
+    {
+        snprintf(str, size,"NULL");
+        return;
+    }
     switch (col-> column_type)
     {
         case INT :
@@ -135,11 +143,118 @@ void convert_value(COLUMN *col, unsigned long long int i, char *str, int size)
         case UNIT :
             snprintf(str,size,"%u", *((unsigned int*)col->data[i]));
             break;
-        case CHAR :
+        case STRING :
             strncpy(str,(char*)col->data[i],size); //c'est deja un char donc pas besoin de e formater
+            break;
+        case CHAR :
+            snprintf(str,size,"%c",*((char*)col->data[i]));
             break;
         case STRUCTURE :
             snprintf(str,size,"%p",col->data[i]);
             break;
     }
 }
+
+void print_col(COLUMN* col) {
+    char str[128];
+    for (int i = 0; i < col->TL; i++) {
+        printf("[%d] ", i);
+        if (col->data[i] == NULL) {
+            printf("NULL\n");
+        }
+        else
+        {
+            convert_value(col,i,str,sizeof(str));
+            printf("%s\n",str);
+        }
+    }
+}
+
+int nbr_occurence(COLUMN *col, void *value) {
+    int cpt = 0;
+
+    // on verifie le type de colonne car car strcmp marche seulement quand y'as plusieurs caractère
+    if (col->column_type == CHAR) {
+        char value_char = *((char *) value); // on convertie void* en char
+        for (int i = 0; i < col->TL; i++) {
+            if (col->data[i] != NULL && *((char *) col->data[i]) == value_char) {
+                cpt++;
+            }
+        }
+    } else {
+        char value_str[128];
+        convert_value(col, 0, value_str, sizeof(value_str));
+
+        for (int i = 0; i < col->TL; i++) {
+            if (col->data[i] != NULL) {
+                char temp_value[128]; //valeur dans les colonnes
+                convert_value(col, i, temp_value, sizeof(temp_value));
+
+                if (strcmp(temp_value, (char *) value) == 0) { //on les compare grace a strcmp
+                    cpt++;
+                }
+            }
+        }
+    }
+    return cpt;
+}
+
+int nbr_occurence_sup(COLUMN *col, void *value) {
+    int cpt = 0;
+
+    // on verifie le type de colonne car car strcmp marche seulement quand y'as plusieurs caractère
+    if (col->column_type == CHAR) {
+        char value_char = *((char *) value); // on convertie void* en char
+        for (int i = 0; i < col->TL; i++) {
+            if (col->data[i] != NULL && *((char *) col->data[i]) > value_char) {
+                cpt++;
+            }
+        }
+    } else {
+        char value_str[128];
+        convert_value(col, 0, value_str, sizeof(value_str));
+
+        for (int i = 0; i < col->TL; i++) {
+            if (col->data[i] != NULL) {
+                char temp_value[128]; //valeur dans les colonnes
+                convert_value(col, i, temp_value, sizeof(temp_value));
+
+                if (strcmp(temp_value, (char *) value) > 0) { //on les compare grace a strcmp
+                    cpt++;
+                }
+            }
+        }
+    }
+    return cpt;
+}
+
+int nbr_occurence_inf(COLUMN *col, void *value) {
+    int cpt = 0;
+
+    // on verifie le type de colonne car car strcmp marche seulement quand y'as plusieurs caractère
+    if (col->column_type == CHAR) {
+        char value_char = *((char *) value); // on convertie void* en char
+        for (int i = 0; i < col->TL; i++) {
+            if (col->data[i] != NULL && *((char *) col->data[i]) < value_char) {
+                cpt++;
+            }
+        }
+    } else {
+        char value_str[128];
+        convert_value(col, 0, value_str, sizeof(value_str));
+
+        for (int i = 0; i < col->TL; i++) {
+            if (col->data[i] != NULL) {
+                char temp_value[128]; //valeur dans les colonnes
+                convert_value(col, i, temp_value, sizeof(temp_value));
+
+                if (strcmp(temp_value, (char *) value) < 0) { //on les compare grace a strcmp
+                    cpt++;
+                }
+            }
+        }
+    }
+    return cpt;
+}
+
+
