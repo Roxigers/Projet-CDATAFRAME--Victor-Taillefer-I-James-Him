@@ -82,6 +82,5 @@ void changer_valeur(Cdataframe *df);
 
 void affichage_nbr_ligne_colonne(Cdataframe* Cdata);
 
-void informations_x(Cdataframe* Cdata);
 
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H

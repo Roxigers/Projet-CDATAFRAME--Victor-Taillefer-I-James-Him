@@ -40,6 +40,5 @@ int main() {
     }
     insert_val_utilisateur(df);
     affichage_Cdataframe((df));
-    informations_x(df);
     return 0;
 }
