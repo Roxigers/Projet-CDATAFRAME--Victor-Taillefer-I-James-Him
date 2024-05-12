@@ -15,7 +15,6 @@ NULLVAL = 1, UNIT, INT, CHAR, FLOAT, DOUBLE, STRING, STRUCTURE
 };
 typedef enum enum_type ENUM_TYPE;
 
-
 union column_type{
 unsigned int uint_value;
 signed int int_value;
@@ -30,12 +29,13 @@ typedef union column_type COL_TYPE ;
 typedef struct
 {
 char* titre;
-signed int TP;
+unsigned int TP;
 unsigned int TL;
-int* donnee;
 COL_TYPE **data;
-unsigned long long int *index;
 ENUM_TYPE column_type;
+unsigned long long int *index;
+int valid_index;
+int sort_dir;
 }COLUMN;
 
 typedef struct {
@@ -43,50 +43,71 @@ COLUMN **column;
 int nb_column;
 }Cdataframe;
 
-COLUMN *create_column(char* title);
-
-int insert_value(COLUMN* col, int value);
-
-void delete_column(COLUMN **col);
-
-void print_col(COLUMN* col);
-
-int nbr_occurence(COLUMN* col, int x);
-
-int nbr_position(COLUMN* col, int x);
-
-int nbr_occurence_sup(COLUMN* col, int x);
-
-int nbr_occurence_inf(COLUMN* col, int x);
-
-int add_column (Cdataframe *Cdata);
-
-Cdataframe *create_Cdataframe();
-
-void insert_value_endur(Cdataframe *Cdata, int nb_rows, int nb_columns, int (*values)[4]);
-
-void lim_rows_display (Cdataframe *Cdata);
-
-void lim_column_display(Cdataframe *Cdata);
-
-void insert_values_user(Cdataframe *Cdata);
-
-void display_CDataframe(Cdataframe *Cdata);
-
-void nouveau_titre(Cdataframe *df);
-
-void verifier_valeur_existante(Cdataframe *df);
-
-void modifier_valeur_cellule(Cdataframe *df);
-
-void Affichage_nom_colonne(Cdataframe *df);
-
-void Affichage_nbr_ligne_colonne(Cdataframe *df);
-
-void analyser_valeur_x(Cdataframe *df);
 
 //PARTIE 2
 
-COLUMN *create_colum2(ENUM_TYPE type, char*title);
+COLUMN *create_column(ENUM_TYPE type, char*title);
+
+int insert_value(COLUMN *col, void *value);
+
+void delete_column(COLUMN **col);
+
+void convert_value(COLUMN *col, unsigned long long int i, char *str, int size);
+
+void print_col(COLUMN* col);
+
+int nbr_occurence(COLUMN* col, void* value);
+
+int nbr_occurence_sup(COLUMN* col, void* value);
+
+int nbr_occurence_inf(COLUMN* col, void* value);
+
+void *nbr_position(COLUMN *col, int position);
+
+Cdataframe *create_Cdataframe();
+
+void ajout_colonne(Cdataframe* Cdata, ENUM_TYPE type, char *title);
+
+void insert_val_utilisateur(Cdataframe* Cdata);
+
+void affichage_Cdataframe(Cdataframe *Cdata);
+
+void ligne_affichage(Cdataframe* Cdata);
+
+void colonne_affichage(Cdataframe *Cdata);
+
+void changer_titre(Cdataframe *Cdata);
+
+void rechercher_valeur(Cdataframe* Cdata);
+
+void changer_valeur(Cdataframe *df);
+
+void affichage_nbr_ligne_colonne(Cdataframe* Cdata);
+
+void sort(COLUMN* col, int sort_dir);
+
+void quicksort_acc(COLUMN* col,unsigned int gauche, unsigned int droite);
+
+int partition_acc(COLUMN* col,unsigned int gauche, unsigned int droite);
+
+void tri_insertion_acc(COLUMN* col);
+
+void quicksort_dec(COLUMN* col,unsigned int gauche, unsigned int droite);
+
+int partition_dec(COLUMN* col,unsigned int gauche, unsigned int droite);
+
+void tri_insertion_dec(COLUMN* col);
+
+void print_col_by_index(COLUMN *col);
+
+void erase_index(COLUMN *col);
+
+int check_index(COLUMN *col);
+
+void update_index(COLUMN *col);
+
+int search_value_in_column(COLUMN *col, void *val);
+
+int recherche_dicho(COLUMN *col, void *val, int gauche, int droite);
 
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H
