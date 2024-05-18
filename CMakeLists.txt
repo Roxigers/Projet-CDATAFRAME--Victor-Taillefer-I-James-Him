@@ -8,4 +8,6 @@ add_executable(Projet_CDATAFRAME__Victor_Taillefer_I_James_Him
         functions.h
         functions.h
         functions.c
-        functions.c)
+        functions.c
+        columns.h
+        columns.c)

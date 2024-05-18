@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "functions.h"
 #include <string.h>
+#include "columns.h"
 #include <stdlib.h>
 #define N 5
 
