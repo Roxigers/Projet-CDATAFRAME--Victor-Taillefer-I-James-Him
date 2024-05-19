@@ -25,15 +25,15 @@ void *nbr_position(COLUMN *col, int position);
 
 void sort(COLUMN* col, int sort_dir);
 
-void quicksort_acc(COLUMN* col,unsigned int gauche, unsigned int droite);
+void quicksort_acc(COLUMN* col,unsigned int left, unsigned int right);
 
-int partition_acc(COLUMN* col,unsigned int gauche, unsigned int droite);
+int partition_acc(COLUMN* col,unsigned int left, unsigned int right);
 
 void tri_insertion_acc(COLUMN* col);
 
-void quicksort_dec(COLUMN* col,unsigned int gauche, unsigned int droite);
+void quicksort_dec(COLUMN* col,unsigned int left, unsigned int right);
 
-int partition_dec(COLUMN* col,unsigned int gauche, unsigned int droite);
+int partition_dec(COLUMN* col,unsigned int left, unsigned int right);
 
 void tri_insertion_dec(COLUMN* col);
 
@@ -47,6 +47,6 @@ void update_index(COLUMN *col);
 
 int search_value_in_column(COLUMN *col, void *val);
 
-int recherche_dicho(COLUMN *col, void *val, int gauche, int droite);
+int search_dicho(COLUMN *col, void *val, int left, int right);
 
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_COLUMNS_H

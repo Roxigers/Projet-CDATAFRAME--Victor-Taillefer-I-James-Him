@@ -28,7 +28,7 @@ typedef union column_type COL_TYPE ;
 
 typedef struct
 {
-    char* titre;
+    char* title;
     unsigned int TP;
     unsigned int TL;
     COL_TYPE **data;
@@ -48,23 +48,23 @@ typedef struct {
 
 Cdataframe *create_Cdataframe();
 
-void ajout_colonne(Cdataframe* Cdata, ENUM_TYPE type, char *title);
+void add_column(Cdataframe* Cdata, ENUM_TYPE type, char *title);
 
 void insert_val_utilisateur(Cdataframe* Cdata);
 
-void affichage_Cdataframe(Cdataframe *Cdata);
+void display_Cdataframe(Cdataframe *Cdata);
 
-void ligne_affichage(Cdataframe* Cdata);
+void display_row(Cdataframe* Cdata);
 
-void colonne_affichage(Cdataframe *Cdata);
+void display_column(Cdataframe *Cdata);
 
-void changer_titre(Cdataframe *Cdata);
+void change_title(Cdataframe *Cdata);
 
-void rechercher_valeur(Cdataframe* Cdata);
+void search_value(Cdataframe* Cdata);
 
-void changer_valeur(Cdataframe *df);
+void change_value(Cdataframe *df);
 
-void affichage_nbr_ligne_colonne(Cdataframe* Cdata);
+void display_row_column(Cdataframe* Cdata);
 
 
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H

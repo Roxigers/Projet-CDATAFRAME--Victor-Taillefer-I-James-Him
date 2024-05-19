@@ -42,6 +42,6 @@ int main() {
         return 1;
     }
     insert_val_utilisateur(df);
-    affichage_Cdataframe((df));
+    display_Cdataframe((df));
     return 0;
 }
