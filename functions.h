@@ -22,7 +22,6 @@ union column_type{
     float float_value;
     double double_value;
     char* string_value;
-    void* struct_value;
 };
 typedef union column_type COL_TYPE ;
 

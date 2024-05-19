@@ -5,6 +5,8 @@
 #ifndef PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_COLUMNS_H
 #define PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_COLUMNS_H
 
+#include "functions.h"
+
 COLUMN *create_column(ENUM_TYPE type, char*title);
 
 int insert_value(COLUMN *col, void *value);
@@ -48,5 +50,9 @@ void update_index(COLUMN *col);
 int search_value_in_column(COLUMN *col, void *val);
 
 int search_dicho(COLUMN *col, void *val, int left, int right);
+
+int comparaison(COLUMN* col,int i,int j);
+
+void sort_direction(COLUMN *col);
 
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_COLUMNS_H

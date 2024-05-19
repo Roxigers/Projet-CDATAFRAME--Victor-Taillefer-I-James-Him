@@ -8,17 +8,16 @@
 #include "columns.h"
 #include <string.h>
 
-//On retrouve ici toutes les fonctions en rapport avec les colonnes
-
-COLUMN *create_column(ENUM_TYPE type, char*title) //On crée une colonne
-{//ON prends en paramètre le type qu'on veut mettre a la colonne et le titre de la colonne
+COLUMN *create_column(ENUM_TYPE type, char*title)//On crée une colonne
+//ON prends en paramètre le type qu'on veut mettre a la colonne et le titre de la colonne
 // Elle renvoie la colonne qu'on vient de créer
+{
     COLUMN* new_column = (COLUMN*) malloc(sizeof(COLUMN)); //On verifie que ca a été alloué ou pas
     if (new_column==NULL){
         printf("Erreur allocation de la colonne");
         return NULL;
     }
-    new_column->title = (char*) malloc(strlen(title)+1); //pareil ici pour savoir si le titre a été enregistré
+    new_column->title = (char*) malloc(strlen(title)+1);//pareil ici pour savoir si le titre a été enregistré
     if (new_column->title == NULL){
         printf("Erreur allocation titre de la colonne");
     }
@@ -34,12 +33,13 @@ COLUMN *create_column(ENUM_TYPE type, char*title) //On crée une colonne
     return new_column;
 }
 
-int insert_value(COLUMN *col, void *value) { //Permet a l'utilisateur d'insérer ses valeurs
+int insert_value(COLUMN *col, void *value) {//Permet a l'utilisateur d'insérer ses valeurs
 //On prend en paramètre les valeurs saisie par l'utilisateur et la colonne qui va recevoir la valeur
 //Il retourne 1 si ca a été effectué et 0 si ca a échoué
-    if (col->TL == col->TP) {
 
-        if (col->TL == 0) //on alloue si c'est la première fois
+    if (col->TL == col->TP) {//on alloue si c'est la première fois
+
+        if (col->TL == 0)
         {
             col->data = (COL_TYPE **)malloc(sizeof(COL_TYPE *) * 256);
             col->index = (unsigned long long*)malloc(sizeof(unsigned long long)*256);
@@ -53,7 +53,7 @@ int insert_value(COLUMN *col, void *value) { //Permet a l'utilisateur d'insérer
             printf("Erreur de reallocation de memoire");
             return 0;
         }
-        col->TP += 256; //On met a jour la taille physique
+        col->TP += 256;//On met a jour la taille physique
     }
 
     // Allocation de l'espace pour stocker la valeur
@@ -103,7 +103,7 @@ int insert_value(COLUMN *col, void *value) { //Permet a l'utilisateur d'insérer
     return 1;
 }
 
-void delete_column(COLUMN **col) { //On supprime une colonne
+void delete_column(COLUMN **col) {//On supprime une colonne
 //On prend en paramètre l'adresse de la colonne a supprime
 //On ne renvoie rien car on supprime qql chose et on a besoin de rien renvoyer
     for (int i = 0; i < (*col)->TL; i++) {
@@ -141,9 +141,10 @@ void delete_column(COLUMN **col) { //On supprime une colonne
  * @param3: The string in which the value will be written
  * @param4: Maximum size of the string
  */
-void convert_value(COLUMN *col, unsigned long long int i, char *str, int size) //On converti les valeur d'un colonne en string
-{//On prend en paramètre la colonne, la posiiton de la valeur a convertir, un pointeur vers un string ou la valeur sera stocké et la taille max de la chaine
+void convert_value(COLUMN *col, unsigned long long int i, char *str, int size)//On converti les valeur d'un colonne en string
+//On prend en paramètre la colonne, la posiiton de la valeur a convertir, un pointeur vers un string ou la valeur sera stocké et la taille max de la chaine
 //ON ne renvoie rien car on fait les modifications directement sur la colonne
+{
     if (col->data[i]== NULL)
     {
         snprintf(str, size,"NULL");
@@ -172,7 +173,7 @@ void convert_value(COLUMN *col, unsigned long long int i, char *str, int size) /
     }
 }
 
-void print_col(COLUMN* col) { //On affiche une colonne
+void print_col(COLUMN* col) {//On affiche une colonne
 //On prend en paramètre la colonne a afficher
 //On ne renvoie rien car le but de la fonction est deja effectué a l'intérieur
     char str[128];
@@ -189,7 +190,7 @@ void print_col(COLUMN* col) { //On affiche une colonne
     }
 }
 
-int nbr_occurence(COLUMN *col, void *value) { //On regarde le nombre d'occurence d'une valeur
+int nbr_occurence(COLUMN *col, void *value) {//On regarde le nombre d'occurence d'une valeur
 //On prend en paramètre la colonne ou on va recherché la valeur et la valeur a recherché
 //On renvoie le nombre d'occurence de la valeur
     int cpt = 0;
@@ -220,7 +221,7 @@ int nbr_occurence(COLUMN *col, void *value) { //On regarde le nombre d'occurence
     return cpt;
 }
 
-int nbr_occurence_sup(COLUMN *col, void *value) { //Permet de renvoyer le nombre de valeur sup a la valeur saisie
+int nbr_occurence_sup(COLUMN *col, void *value) {//Permet de renvoyer le nombre de valeur sup a la valeur saisie
 //On prend en paramètre la colonne ou l'on va recherché la valeur et la valeur saisie
 //On renvoie le nbr de valeur sup
     int cpt = 0;
@@ -229,7 +230,7 @@ int nbr_occurence_sup(COLUMN *col, void *value) { //Permet de renvoyer le nombre
         case UNIT:
         case INT:
         case DOUBLE:
-        case FLOAT: //On marque rien et on converti tout en double c'est plus simple
+        case FLOAT://On marque rien et on converti tout en double c'est plus simple
         {
             for (int i = 0; i < col->TL; i++) {
                 switch (col->column_type) {
@@ -274,7 +275,7 @@ int nbr_occurence_sup(COLUMN *col, void *value) { //Permet de renvoyer le nombre
     return cpt;
 }
 
-int nbr_occurence_inf(COLUMN *col, void *value) { //l'inverse de la fonction précédente
+int nbr_occurence_inf(COLUMN *col, void *value) {//l'inverse de la fonction précédente
 //Meme paramètre que la fonction précédente
 //On renvoie le nbr de valeur inf
     int cpt = 0;
@@ -329,7 +330,7 @@ int nbr_occurence_inf(COLUMN *col, void *value) { //l'inverse de la fonction pr�
     return cpt;
 }
 
-void *nbr_position(COLUMN *col, int position) { //On recherche la valeura  la position saisie
+void *nbr_position(COLUMN *col, int position) {//On recherche la valeura  la position saisie
 //il prend en paramètre la colonne oou l'on va recherché la valeur et sa position
 //ON renvoie un type void car on ne sait pas quelle est le type de la valeur renvoyer
 
@@ -341,125 +342,75 @@ void *nbr_position(COLUMN *col, int position) { //On recherche la valeura  la po
     return col->data[position];
 }
 
-int partition_dec(COLUMN* col,unsigned int left, unsigned int right) //fonction de partionnement
-//Prend en compte la colonne, l'index du debut et de fin a partitionner
-//Renvoie un entier représentant la position finale du pivot après partitionnement
+
+int comparaison(COLUMN* col,int i,int j) //Fonction qui permet de comparer deux valeur
+//paramètre : pointeur sur une structure, position i de la valeur 1 et position j de la valeur 2
+//renvoie 1 ou 0 en fonction de si la comparaison est vrai dans les return
 {
-    switch (col->column_type) { //compare la valeur du tableau et le pivot selon le type
-        case UNIT: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data)[col->index[j]]).uint_value >= pivot.uint_value)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
+    switch (col->column_type)
+    {
+        case UNIT:
+        {
+            return ((*col->data[i]).uint_value>(*col->data[j]).uint_value);
             break;
         }
-        case INT: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data)[col->index[j]]).int_value >= pivot.int_value)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
+        case INT :
+        {
+            return ((*col->data[i]).int_value>(*col->data[j]).int_value);
             break;
         }
-        case CHAR: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data)[col->index[j]]).char_value >= pivot.char_value)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
+        case DOUBLE:
+        {
+            return ((*col->data[i]).double_value>(*col->data[j]).double_value);
             break;
         }
-        case FLOAT: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data)[col->index[j]]).float_value >= pivot.float_value)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
+        case FLOAT:
+        {
+            return ((*col->data[i]).float_value>(*col->data[j]).float_value);
             break;
         }
-        case STRING: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data[col->index[j]])).string_value, pivot.string_value >= 0)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
+        case CHAR:
+        {
+            return ((*col->data[i]).char_value>(*col->data[j]).char_value);
             break;
+        }
+        case STRING:
+        {
+            if((strcmp((*(col->data[i])).string_value, (*(col->data[j])).string_value)) > 0)
+                return 1;
+            else
+                return 0;
         }
     }
 }
 
-void quicksort_dec(COLUMN* col,unsigned int left, unsigned int right) //l'algorithme de tri rapide
+
+
+int partition_dec(COLUMN* col,unsigned int left, unsigned int right) //fonction de partionnement
+//Prend en compte la colonne, l'index du debut et de fin a partitionner
+//Renvoie un entier représentant la position finale du pivot après partitionnement
+{
+
+    int i=left-1;
+    for(int j=left;j<right;j++)
+    {
+        if(comparaison(col,col->index[j],col->index[right]))
+        {
+            i++;
+            unsigned long long provisoire;
+            provisoire = col->index[i];
+            col->index[i] = col->index[j];
+            col->index[j] = provisoire;
+        }
+    }
+    unsigned long long provisoire;
+    provisoire = col->index[i+1];
+    col->index[i+1] = col->index[right];
+    col->index[right] = provisoire;
+    return i+1;
+}
+
+void quicksort_dec(COLUMN* col,unsigned int left, unsigned int right)//l'algorithme de tri rapide
 //Prend en compte la colonne, l'index du debut et de fin a partitionner
 //elle ne renvoie rien car elle modifie directement les indices dans la struc COLONNE
 {
@@ -475,145 +426,30 @@ void quicksort_dec(COLUMN* col,unsigned int left, unsigned int right) //l'algori
 
 
 
-int partition_acc(COLUMN* col,unsigned int left, unsigned int right) //fonction de partitionnement
+int partition_acc(COLUMN* col,unsigned int left, unsigned int right)//fonction de partitionnement
 //Prend en compte la colonne, l'index du debut et de fin a partitionner
 //renvoie l'entier de la position finale du pivot après partitionnement
 {
-    switch (col->column_type) {
-        case UNIT: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data)[col->index[j]]).uint_value <= pivot.uint_value) //Comparaison
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire; // Échange final pour placer le pivot à sa position correcte
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
-            break;
-        }
-        case INT: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data)[col->index[j]]).int_value <= pivot.int_value)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
+    int i=left-1;
+    for(int j=left;j<right;j++)
+    {
+        if(comparaison(col,col->index[right],col->index[j]))
+        {
+            i++;
             unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
-            break;
-        }
-        case DOUBLE: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data)[col->index[j]]).int_value <= pivot.double_value)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
-            break;
-        }
-        case CHAR: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data)[col->index[j]]).char_value <= pivot.char_value)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
-            break;
-        }
-        case FLOAT: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data)[col->index[j]]).float_value <= pivot.float_value)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
-            break;
-        }
-        case STRING: {
-            COL_TYPE pivot;
-            pivot = *(col->data)[col->index[right]];
-            int i=left-1;
-            for(int j=left;j<right;j++)
-            {
-                if((*(col->data[col->index[j]])).string_value, pivot.string_value <= 0)
-                {
-                    i++;
-                    unsigned long long provisoire;
-                    provisoire = col->index[i];
-                    col->index[i] = col->index[j];
-                    col->index[j] = provisoire;
-                }
-            }
-            unsigned long long provisoire;
-            provisoire = col->index[i+1];
-            col->index[i+1] = col->index[right];
-            col->index[right] = provisoire;
-            return i+1;
-            break;
+            provisoire = col->index[i];
+            col->index[i] = col->index[j];
+            col->index[j] = provisoire;
         }
     }
+    unsigned long long provisoire;
+    provisoire = col->index[i+1];
+    col->index[i+1] = col->index[right];
+    col->index[right] = provisoire;
+    return i+1;
 }
+
+
 
 void quicksort_acc(COLUMN* col,unsigned int left, unsigned int right)//l'algorithme de tri rapide
 //Prend en compte la colonne, l'index du debut et de fin a partitionner
@@ -627,74 +463,17 @@ void quicksort_acc(COLUMN* col,unsigned int left, unsigned int right)//l'algorit
     }
 }
 
-void tri_insertion_acc(COLUMN* col)  //implémente l'algorithme de tri par insertion
+void tri_insertion_acc(COLUMN* col)//implémente l'algorithme de tri par insertion
 //on a en paramètre la colonne a trier
 //On ne renvoie rien car le tri se fait dans la fonction
 {
     for(int i=1;i<col->TL;i++)
     {
-        switch (col->column_type) {
-            case UNIT: {
-                unsigned int k = (*(col->data[col->index[i]])).uint_value;
-                int j = i-1;
-                //Boucle qui met les elements supéreieur a k a droite, pareil pour les autres types
-                while(j>0 && (*(col->data[col->index[j]])).uint_value>k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case INT: {
-                int k = (*(col->data[col->index[i]])).int_value;
-                int j = i-1;
-                while(j>0 && (*(col->data[col->index[j]])).int_value>k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case DOUBLE: {
-                double k = (*(col->data[col->index[i]])).double_value;
-                int j = i-1;
-                while(j>0 && (*(col->data[col->index[j]])).double_value>k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case CHAR: {
-                char k = (*(col->data[col->index[i]])).char_value;
-                int j = i-1;
-                while(j>0 && (*(col->data[col->index[j]])).char_value>k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case FLOAT: {
-                float k = (*(col->data[col->index[i]])).float_value;
-                int j = i-1;
-                while(j>0 && (*(col->data[col->index[j]])).float_value>k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case STRING: {
-                char* k = (*(col->data[col->index[i]])).string_value;
-                int j = i-1;
-                while(j>0 && (strcmp((*(col->data[col->index[j]])).string_value, k) > 0))
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
+        int j = i-1;
+        while(j>0 && comparaison(col,j,i))
+        {
+            col->index[j+1] = col->index[j];
+            j--;
         }
     }
 }
@@ -703,77 +482,22 @@ void tri_insertion_dec(COLUMN* col)//implémente l'algorithme de tri par inserti
 //on a en paramètre la colonne a trier
 //On ne renvoie rien car le tri se fait dans la fonction
 {
-    for(unsigned int i=col->TL-1;i>0;i--)
+    for(int i=1;i<col->TL;i++)
     {
-        switch (col->column_type) {
-            case UNIT: {
-                unsigned int k = (*(col->data[col->index[i]])).uint_value;
-                int j = i-1;
-                //Boucle qui met les elements inférieur a k a droite, pareil pour les autres types
-                while(j>0 && (*(col->data[col->index[j]])).uint_value<k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case INT: {
-                int k = (*(col->data[col->index[i]])).int_value;
-                int j = i-1;
-                while(j>0 && (*(col->data[col->index[j]])).int_value<k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case DOUBLE: {
-                double k = (*(col->data[col->index[i]])).double_value;
-                int j = i-1;
-                while(j>0 && (*(col->data[col->index[j]])).double_value<k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case CHAR: {
-                char k = (*(col->data[col->index[i]])).char_value;
-                int j = i-1;
-                while(j>0 && (*(col->data[col->index[j]])).char_value<k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case FLOAT: {
-                float k = (*(col->data[col->index[i]])).float_value;
-                int j = i-1;
-                while(j>0 && (*(col->data[col->index[j]])).float_value<k)
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
-            case STRING: {
-                char* k = (*(col->data[col->index[i]])).string_value;
-                int j = i-1;
-                while(j>0 && (strcmp((*(col->data[col->index[j]])).string_value, k) < 0))
-                {
-                    col->index[j+1] = col->index[j];
-                    j--;
-                }
-                break;
-            }
+        int j = i-1;
+        while(j>0 && comparaison(col,i,j))
+        {
+            col->index[j+1] = col->index[j];
+            j--;
         }
     }
 }
 
 
 
-void sort(COLUMN* col, int sort_dir)
+void sort(COLUMN* col, int sort_dir)//trie les données dans une colonne
+//pointeur sur structure COLONNE, entier qui indique si le tri est ascendant ou descendant
+//Ne renvoie rien car il change directement les place des donnée en faisant appel au fonction
 {
     if(col->valid_index == 0)
     {
@@ -793,6 +517,7 @@ void sort(COLUMN* col, int sort_dir)
 
     col->valid_index = 1;
 }
+
 
 void print_col_by_index(COLUMN *col)//Affiche les valeurs de la colonne triée
 //Parzmètre : la colonne
@@ -841,7 +566,7 @@ void erase_index(COLUMN *col)//Libère la mémoire allouée pour le tableau d'in
     col->index = NULL;
 }
 
-int check_index(COLUMN *col) //vérifie l'état de l'index d'une colonne
+int check_index(COLUMN *col)//vérifie l'état de l'index d'une colonne
 //Paramètre : la colonne
 //Renvoie 0, -1 ou 1 selon si l'index est présent, invalide ou valide
 {
@@ -855,6 +580,15 @@ int check_index(COLUMN *col) //vérifie l'état de l'index d'une colonne
             return -1;
     }
 }
+
+void sort_direction(COLUMN *col)//demande dans quel sens on veut que la colonne soit triée
+//paramètre : la colonne (le pointeur sur la structure COLONNE)
+//ne renvoie rien
+{
+    printf("dans quel sens la colonne sera-t-elle triee?  \n0 : ASCENDANT\n1 : DESCENDANT");
+    scanf("%d",&col->sort_dir);
+}
+
 
 void update_index(COLUMN *col)// il met à jour l'index d'une colonne
 //paramètre : pointeur vers une structure COLONNE
