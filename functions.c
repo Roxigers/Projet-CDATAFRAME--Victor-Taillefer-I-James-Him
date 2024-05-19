@@ -268,7 +268,7 @@ void change_value(Cdataframe *df) { //je n'arrive pas a accédé a la première 
         case UNIT:
         {
             int valeur;
-            printf("Entrez la nouvelle valeur (entier) : ");
+            printf("Entrez la nouvelle valeur (entier positif) : ");
             scanf("%d", &valeur);
             *((int *)df->column[column_value]->data[row_value]) = valeur;
             break;

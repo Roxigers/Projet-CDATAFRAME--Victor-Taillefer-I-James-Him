@@ -103,6 +103,7 @@ int insert_value(COLUMN *col, void *value) {//Permet a l'utilisateur d'insérer 
     return 1;
 }
 
+
 void delete_column(COLUMN **col) {//On supprime une colonne
 //On prend en paramètre l'adresse de la colonne a supprime
 //On ne renvoie rien car on supprime qql chose et on a besoin de rien renvoyer
@@ -585,7 +586,7 @@ void sort_direction(COLUMN *col)//demande dans quel sens on veut que la colonne 
 //paramètre : la colonne (le pointeur sur la structure COLONNE)
 //ne renvoie rien
 {
-    printf("dans quel sens la colonne sera-t-elle triee?  \n0 : ASCENDANT\n1 : DESCENDANT");
+    printf("dans quel sens la colonne sera-t-elle triée?  \n0 : ASCENDANT\n1 : DESCENDANT");
     scanf("%d",&col->sort_dir);
 }
 

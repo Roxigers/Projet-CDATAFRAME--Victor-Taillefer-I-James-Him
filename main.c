@@ -42,7 +42,7 @@ int main() {
     Cdataframe *df = create_Cdataframe();
     if (df == NULL)
     {  //verifie qu'il a été créer ou pas*
-        printf("erreur dans la creation du  Cdataframe\n");
+        printf("erreur dans la création du  Cdataframe\n");
         return 1;
     }
     insert_val_utilisateur(df);
