@@ -27,11 +27,11 @@ Le CDataframe est composé d'un ensemble de colonnes, chaque colonne ayant un ti
 - **char** : Caractères
 - **string** : Chaînes de caractères
 
-##Utilisation du Cdataframe
+## Utilisation du Cdataframe
 
 Pour faire fonctionner le Cdataframe, vous avez juste à run le code et un menu vous sera proposé. À partir de là il faudra d'abord crée un Cdataframe puis vous pourrez tester toutes les fonctionnalités qu'on a implémenté en tapant le numéro correspondant à la fonctionnalité voulu.
 
-##Membres de l'équipe du projet
+## Membres de l'équipe du projet
 
 Victor Taillefer de La Portalière (https://github.com/VictorTaillefer)
 James Him (https://github.com/Roxigers)
