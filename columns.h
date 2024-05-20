@@ -26,7 +26,7 @@ int nbr_occurence_sup(COLUMN* col, void* value);
 
 int nbr_occurence_inf(COLUMN* col, void* value);
 
-void *nbr_position(COLUMN *col, int position);
+void* nbr_position(COLUMN *col, int position);
 
 void sort(COLUMN* col, int sort_dir);
 

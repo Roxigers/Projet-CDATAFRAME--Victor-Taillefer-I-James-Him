@@ -207,7 +207,6 @@ int nbr_occurence(COLUMN *col, void *value) {//On regarde le nombre d'occurence 
     } else {
         char value_str[128];
         convert_value(col, 0, value_str, sizeof(value_str)); //On ocnvertie les valeur en string
-
         for (int i = 0; i < col->TL; i++) {
             if (col->data[i] != NULL) {
                 char temp_value[128]; //valeur dans les colonnes
@@ -226,7 +225,6 @@ int nbr_occurence_sup(COLUMN *col, void *value) {//Permet de renvoyer le nombre 
 //On prend en paramètre la colonne ou l'on va recherché la valeur et la valeur saisie
 //On renvoie le nbr de valeur sup
     int cpt = 0;
-
     switch (col->column_type) {
         case UNIT:
         case INT:
@@ -272,7 +270,6 @@ int nbr_occurence_sup(COLUMN *col, void *value) {//Permet de renvoyer le nombre 
             break;
         }
     }
-
     return cpt;
 }
 
@@ -325,24 +322,19 @@ int nbr_occurence_inf(COLUMN *col, void *value) {//l'inverse de la fonction pré
             }
             break;
         }
-
     }
-
     return cpt;
 }
 
 void *nbr_position(COLUMN *col, int position) {//On recherche la valeura  la position saisie
 //il prend en paramètre la colonne oou l'on va recherché la valeur et sa position
 //ON renvoie un type void car on ne sait pas quelle est le type de la valeur renvoyer
-
     if (position < 0 || position >= col->TL) {
         printf("Position invalide.\n");
         return NULL;
     }
-
     return col->data[position];
 }
-
 
 int comparaison(COLUMN* col,int i,int j) //Fonction qui permet de comparer deux valeur
 //paramètre : pointeur sur une structure, position i de la valeur 1 et position j de la valeur 2
@@ -400,8 +392,6 @@ int comparaison(COLUMN* col,int i,int j) //Fonction qui permet de comparer deux 
     }
 }
 
-
-
 void sort_direction(COLUMN *col)//demande dans quel sens on veut que la colonne soit triée
 //paramètre : la colonne (le pointeur sur la structure COLONNE)
 //ne renvoie rien
@@ -409,7 +399,6 @@ void sort_direction(COLUMN *col)//demande dans quel sens on veut que la colonne 
     printf("dans quel sens la colonne sera-t-elle triee?  \n0 : ASCENDANT\n1 : DESCENDANT");
     scanf("%d",&col->sort_dir);
 }
-
 
 void update_index(COLUMN *col)// il met à jour l'index d'une colonne
 //paramètre : pointeur vers une structure COLONNE
@@ -433,8 +422,6 @@ void echanger(COLUMN* col,int i,int j)
     col->index[j] = provisoire;
 }
 
-
-
 int partition(COLUMN* col,unsigned int gauche, unsigned int droite)//fonction de partitionnement
 //Prend en compte la colonne, l'index du debut et de fin a partitionner
 //renvoie l'entier de la position finale du pivot après partitionnement
@@ -451,8 +438,6 @@ int partition(COLUMN* col,unsigned int gauche, unsigned int droite)//fonction de
     echanger(col,i+1,droite);
     return i+1;
 }
-
-
 
 void quicksort(COLUMN* col,unsigned int gauche, unsigned int droite)//l'algorithme de tri rapide
 //Prend en compte la colonne, l'index du debut et de fin a partitionner
@@ -473,7 +458,7 @@ void tri_insertion(COLUMN* col)//implémente l'algorithme de tri par insertion
     for(int i=1;i<col->TL;i++)
     {
         int j = i-1;
-        while(col->sort_dir==0 ? ((j>0) && comparaison(col,j,i)) :((j>0) && comparaison(col,i,j)))
+        while(col->sort_dir==0 ? ((j>=0) && comparaison(col,j,i)) :((j>0) && comparaison(col,i,j)))
         {
             col->index[j+1] = col->index[j];
             j--;
@@ -482,27 +467,19 @@ void tri_insertion(COLUMN* col)//implémente l'algorithme de tri par insertion
     }
 }
 
-
-
-
-
 void sort(COLUMN* col, int sort_dir)//trie les données dans une colonne
 //pointeur sur structure COLONNE, entier qui indique si le tri est ascendant ou descendant
 //Ne renvoie rien car il change directement les place des donnée en faisant appel au fonction
 {
     if(col->valid_index == 0)
-    {
         quicksort(col,0,col->TL-1);
-    }
-    else
-    if(col->valid_index == -1)
-    {
-        tri_insertion(col);
+    else{
+        if(col->valid_index == -1)
+            tri_insertion(col);
     }
 
     col->valid_index = 1;
 }
-
 
 void erase_index(COLUMN *col)//Libère la mémoire allouée pour le tableau d'index
 //Paramètre : la colonne
