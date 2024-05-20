@@ -14,12 +14,16 @@ Cdataframe *create_Cdataframe()
     return Cdataframe;
 }
 
-void add_column(Cdataframe *Cdataframe, ENUM_TYPE type, char *title) {
+void add_column(Cdataframe *Cdataframe, ENUM_TYPE type) {
+    char title[100];
+    printf("Entrez le titre de la nouvelle colonne : ");
+    scanf("%s",title);
     COLUMN *new_column = create_column(type, title);
     if (new_column == NULL) {
-        printf("Erreur lors de la creation de la colonne.\n");
+        printf("Erreur lors de la création de la colonne.\n");
         return;
     }
+
 
     // On Réalloue la mémoire pour les pointeurs de colonnes
     Cdataframe->column = realloc(Cdataframe->column, sizeof(COLUMN *) * (Cdataframe->nb_column + 1));
@@ -27,6 +31,56 @@ void add_column(Cdataframe *Cdataframe, ENUM_TYPE type, char *title) {
         printf("Erreur lors de l'ajout de la colonne au dataframe.\n");
         delete_column(&new_column); // Libérer la mémoire de la nouvelle colonne
         return;
+    }
+    for (int i = 0; i<Cdataframe->nb_column;i++)
+    {
+        printf("Saisissez une valeur pour la colonne '%s':\n", new_column->title);
+
+        switch (new_column->column_type) {
+            case UNIT: {
+                unsigned int value;
+                printf("Entier non signé: ");
+                scanf("%u", &value);
+                insert_value(new_column, &value);
+                break;
+            }
+            case INT: {
+                int value;
+                printf("Entier signé: ");
+                scanf("%d", &value);
+                insert_value(new_column, &value);
+                break;
+            }
+            case CHAR: {
+                char value;
+                printf("Caractère: ");
+                scanf(" %c", &value);
+                getchar();
+                insert_value(new_column, &value);
+                break;
+            }
+            case FLOAT: {
+                float value;
+                printf("Flottant: ");
+                scanf("%f", &value);
+                insert_value(new_column, &value);
+                break;
+            }
+            case DOUBLE: {
+                double value;
+                printf("Double: ");
+                scanf("%lf", &value);
+                insert_value(new_column, &value);
+                break;
+            }
+            case STRING: {
+                char value[128];
+                printf("Chaîne de caractères : ");
+                scanf("%s", value);
+                insert_value(new_column, value);
+                break;
+            }
+        }
     }
 
 
@@ -59,7 +113,22 @@ void insert_val_utilisateur(Cdataframe *Cdata) {
         scanf("%d", &type_choice);
         type = type_choice;
 
-        add_column(Cdata, type, title);
+        COLUMN *new_column = create_column(type, title);
+        if (new_column == NULL) {
+            printf("Erreur lors de la création de la colonne.\n");
+            return;
+        }
+
+        // On Réalloue la mémoire pour les pointeurs de colonnes
+        Cdata->column = realloc(Cdata->column, sizeof(COLUMN *) * (Cdata->nb_column + 1));
+        if (Cdata->column == NULL) {
+            printf("Erreur lors de l'ajout de la colonne au dataframe.\n");
+            delete_column(&new_column); // Libérer la mémoire de la nouvelle colonne
+            return;
+        }
+
+
+        Cdata->column[Cdata->nb_column++] = new_column;
     }
 
     for (int i = 0; i < nb_row; i++) {
@@ -71,21 +140,21 @@ void insert_val_utilisateur(Cdataframe *Cdata) {
             switch (col->column_type) {
                 case UNIT: {
                     unsigned int value;
-                    printf("Entier non signe: ");
+                    printf("Entier non signé: ");
                     scanf("%u", &value);
                     insert_value(col, &value);
                     break;
                 }
                 case INT: {
                     int value;
-                    printf("Entier signe: ");
+                    printf("Entier signé: ");
                     scanf("%d", &value);
                     insert_value(col, &value);
                     break;
                 }
                 case CHAR: {
                     char value;
-                    printf("Caractere: ");
+                    printf("Caractère: ");
                     scanf(" %c", &value);
                     getchar();
                     insert_value(col, &value);
@@ -107,7 +176,7 @@ void insert_val_utilisateur(Cdataframe *Cdata) {
                 }
                 case STRING: {
                     char value[128];
-                    printf("Chaîne de caracteres : ");
+                    printf("Chaîne de caractères : ");
                     scanf("%s", value);
                     insert_value(col, value);
                     break;
@@ -116,6 +185,7 @@ void insert_val_utilisateur(Cdataframe *Cdata) {
         }
     }
 }
+
 
 void display_Cdataframe(Cdataframe *Cdata) {
 
@@ -219,18 +289,18 @@ void display_column(Cdataframe *Cdata) {
 }
 
 void change_title(Cdataframe *Cdata) {
-    int title_value = 0;
+    int title_value = -1;
     char nouveau_titre[100];
 
-    while (title_value < 1 || title_value > Cdata->nb_column) {
+    while (title_value < 0 || title_value > Cdata->nb_column) {
         printf("Quelle colonne voulez-vous changer le titre de 0 a %d : ", Cdata->nb_column-1);
         scanf("%d", &title_value);
     }
 
-    printf("Le nouveau titre '%s': ", Cdata->column[title_value - 1]->title); //-1 psk les tableaux commencent à 0
+    printf("Le nouveau titre '%s': ", Cdata->column[title_value]->title); //-1 psk les tableaux commencent à 0
     scanf("%s", nouveau_titre);
 
-    strcpy(Cdata->column[title_value - 1]->title, nouveau_titre); //On copie le nouveau dans l'ancien titre
+    strcpy(Cdata->column[title_value]->title, nouveau_titre); //On copie le nouveau dans l'ancien titre
 }
 
 void search_value(Cdataframe *Cdata) {

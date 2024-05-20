@@ -352,27 +352,42 @@ int comparaison(COLUMN* col,int i,int j) //Fonction qui permet de comparer deux 
     {
         case UNIT:
         {
-            return ((*col->data[i]).uint_value>(*col->data[j]).uint_value);
+            if((*col->data[i]).uint_value>(*col->data[j]).uint_value)
+                return 1;
+            else
+                return 0;
             break;
         }
         case INT :
         {
-            return ((*col->data[i]).int_value>(*col->data[j]).int_value);
+            if((*col->data[i]).int_value>(*col->data[j]).int_value)
+                return 1;
+            else
+                return 0;
             break;
         }
         case DOUBLE:
         {
-            return ((*col->data[i]).double_value>(*col->data[j]).double_value);
+            if((*col->data[i]).double_value>(*col->data[j]).double_value)
+                return 1;
+            else
+                return 0;
             break;
         }
         case FLOAT:
         {
-            return ((*col->data[i]).float_value>(*col->data[j]).float_value);
+            if((*col->data[i]).float_value>(*col->data[j]).float_value)
+                return 1;
+            else
+                return 0;
             break;
         }
         case CHAR:
         {
-            return ((*col->data[i]).char_value>(*col->data[j]).char_value);
+            if((*col->data[i]).char_value>(*col->data[j]).char_value)
+                return 1;
+            else
+                return 0;
             break;
         }
         case STRING:
@@ -521,20 +536,18 @@ void sort(COLUMN* col, int sort_dir)//trie les données dans une colonne
 {
     if(col->valid_index == 0)
     {
-        quicksort_acc(col,0,col->TL-1);
-        /*if(sort_dir==0)
+        if(sort_dir==0)
             quicksort_acc(col,0,col->TL-1);
         else
-            quicksort_dec(col,0,col->TL-1);*/
+            quicksort_dec(col,0,col->TL-1);
     }
     else
     if(col->valid_index == -1)
     {
-        tri_insertion_acc(col);
-        /*if(sort_dir == 0)
+        if(sort_dir == 0)
             tri_insertion_acc(col);
         else
-            tri_insertion_dec(col);*/
+            tri_insertion_dec(col);
     }
 
     col->valid_index = 1;

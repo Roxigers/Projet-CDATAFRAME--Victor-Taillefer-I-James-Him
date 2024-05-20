@@ -54,34 +54,54 @@ case 1:
     }
 case 2:
 {
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
+
     display_Cdataframe(df);
     break;
 }
 
 case 3:
 {
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
+
     display_row(df);
     break;
 }
 case 4:
 {
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     display_column(df);
     break;
 }
 case 5:
 {
-    //printf("Entrez le titre de la colonne :\n");
-    //char* tit;
-    //gets(tit);
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     printf("\n Entrez le type de la colonne parmis \n1:UNIT, \n2:INT, \n3:CHAR, \n4:FLOAT, \n5:DOUBLE, \n6:STRING:\n");
     ENUM_TYPE type;
     scanf("%d",&type);
-    add_column(df,type, "tit");
+    add_column(df,type);
     break;
 }
-case 6: {
+case 6:
+{
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     int column_value = 0;
-    while (column_value <= 0) {
+    while (column_value < 0) {
     printf("Entrez le numero de la colonne : ");
     scanf("%d", &column_value);
     }
@@ -93,31 +113,56 @@ case 6: {
 }
 case 7:
 {
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     change_title(df);
     break;
 }
 case 8:
 {
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     search_value(df);
     break;
 }
 case 9:
 {
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     change_value(df);
     break;
 }
 case 10:
 {
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     display_column_names(df);
     break;
 }
-case 11: {
+case 11:
+{
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     display_row_column(df);
     break;
 }
 case 12:{
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     int column_value = 0;
-    while (column_value <= 0) {
+    while (column_value < 0) {
         printf("Entrez le numero de la colonne : ");
         scanf("%d", &column_value);
     }
@@ -125,12 +170,20 @@ case 12:{
     break;
 }
 case 13:{
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     display_sorted_Cdataframe(df);
     break;
 }
 case 14:{
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     int column_value = 0;
-    while (column_value <= 0) {
+    while (column_value < 0) {
         printf("Entrez le numero de la colonne : ");
         scanf("%d", &column_value);
     }
@@ -138,8 +191,12 @@ case 14:{
     break;
 }
 case 15:{
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     int column_value = 0;
-    while (column_value <= 0) {
+    while (column_value < 0) {
         printf("Entrez le numero de la colonne :\n ");
         scanf("%d", &column_value);
     }
@@ -158,8 +215,12 @@ case 15:{
     break;
 }
 case 16:{
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
     int column_value = 0;
-    while (column_value <= 0) {
+    while (column_value < 0) {
         printf("Entrez le numero de la colonne : ");
         scanf("%d", &column_value);
     }
