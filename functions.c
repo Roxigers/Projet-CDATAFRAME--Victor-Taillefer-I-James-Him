@@ -32,7 +32,10 @@ void add_column(Cdataframe *Cdataframe, ENUM_TYPE type) {
         delete_column(&new_column); // Libérer la mémoire de la nouvelle colonne
         return;
     }
-    for (int i = 0; i<Cdataframe->nb_column;i++)
+    int valeur;
+    printf("Combien de lignes avez vous a mettre? \n");
+    scanf("%d",&valeur);
+    for (int i = 0; i<valeur;i++)
     {
         printf("Saisissez une valeur pour la colonne '%s':\n", new_column->title);
 
@@ -355,7 +358,7 @@ void change_value(Cdataframe *df) { //je n'arrive pas a accédé a la première 
         scanf("%d", &row_value);
     }
 
-    int column_value = 0;
+    int column_value = -1;
     while (column_value < 0) {
         printf("Entrez la valeur de la colonne : ");
         scanf("%d", &column_value);

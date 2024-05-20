@@ -30,17 +30,11 @@ void *nbr_position(COLUMN *col, int position);
 
 void sort(COLUMN* col, int sort_dir);
 
-void quicksort_acc(COLUMN* col,unsigned int left, unsigned int right);
+void quicksort(COLUMN* col,unsigned int left, unsigned int right);
 
-int partition_acc(COLUMN* col,unsigned int left, unsigned int right);
+int partition(COLUMN* col,unsigned int left, unsigned int right);
 
-void tri_insertion_acc(COLUMN* col);
-
-void quicksort_dec(COLUMN* col,unsigned int left, unsigned int right);
-
-int partition_dec(COLUMN* col,unsigned int left, unsigned int right);
-
-void tri_insertion_dec(COLUMN* col);
+void tri_insertion(COLUMN* col);
 
 void print_col_by_index(COLUMN *col);
 

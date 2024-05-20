@@ -402,26 +402,6 @@ int comparaison(COLUMN* col,int i,int j) //Fonction qui permet de comparer deux 
 
 
 
-int partition_dec(COLUMN* col,unsigned int gauche, unsigned int droite)//fonction de partionnement
-//Prend en compte la colonne, l'index du debut et de fin a partitionner
-//Renvoie un entier représentant la position finale du pivot après partitionnement
-{
-
-    int i=gauche-1;
-    for(int j=gauche;j<droite;j++)
-    {
-        if(comparaison(col,col->index[j],col->index[droite]))
-        {
-            i++;
-            echanger(col,i,j);
-        }
-    }
-    echanger(col,i+1,droite);
-    return i+1;
-}
-
-
-
 void sort_direction(COLUMN *col)//demande dans quel sens on veut que la colonne soit triée
 //paramètre : la colonne (le pointeur sur la structure COLONNE)
 //ne renvoie rien
@@ -453,26 +433,16 @@ void echanger(COLUMN* col,int i,int j)
     col->index[j] = provisoire;
 }
 
-void quicksort_dec(COLUMN* col,unsigned int gauche, unsigned int droite)//l'algorithme de tri rapide
-//Prend en compte la colonne, l'index du debut et de fin a partitionner
-//elle ne renvoie rien car elle modifie directement les indices dans la struc COLONNE
-{
-    if(gauche<droite)
-    {
-        int pi = partition_dec(col,gauche,droite);
-        quicksort_dec(col,gauche, pi-1);
-        quicksort_dec(col, pi+1, droite);
-    }
-}
 
-int partition_acc(COLUMN* col,unsigned int gauche, unsigned int droite)//fonction de partitionnement
+
+int partition(COLUMN* col,unsigned int gauche, unsigned int droite)//fonction de partitionnement
 //Prend en compte la colonne, l'index du debut et de fin a partitionner
 //renvoie l'entier de la position finale du pivot après partitionnement
 {
     int i=gauche-1;
     for(int j=gauche;j<droite;j++)
     {
-        if(comparaison(col,col->index[droite],col->index[j]))
+        if(col->sort_dir==0 ? (comparaison(col,col->index[droite],col->index[j])) :(comparaison(col,col->index[j],col->index[droite])))
         {
             i++;
             echanger(col,i,j);
@@ -484,26 +454,26 @@ int partition_acc(COLUMN* col,unsigned int gauche, unsigned int droite)//fonctio
 
 
 
-void quicksort_acc(COLUMN* col,unsigned int gauche, unsigned int droite)//l'algorithme de tri rapide
+void quicksort(COLUMN* col,unsigned int gauche, unsigned int droite)//l'algorithme de tri rapide
 //Prend en compte la colonne, l'index du debut et de fin a partitionner
 //elle ne renvoie rien car elle modifie directement les indices dans la struc COLONNE
 {
     if(gauche<droite)
     {
-        int pi = partition_acc(col,gauche,droite);
-        quicksort_acc(col,gauche, pi-1);
-        quicksort_acc(col, pi+1, droite);
+        int pi = partition(col,gauche,droite);
+        quicksort(col,gauche, pi-1);
+        quicksort(col, pi+1, droite);
     }
 }
 
-void tri_insertion_acc(COLUMN* col)//implémente l'algorithme de tri par insertion
+void tri_insertion(COLUMN* col)//implémente l'algorithme de tri par insertion
 //on a en paramètre la colonne a trier
 //On ne renvoie rien car le tri se fait dans la fonction
 {
     for(int i=1;i<col->TL;i++)
     {
         int j = i-1;
-        while(j>0 && comparaison(col,j,i))
+        while(col->sort_dir==0 ? ((j>0) && comparaison(col,j,i)) :((j>0) && comparaison(col,i,j)))
         {
             col->index[j+1] = col->index[j];
             j--;
@@ -512,21 +482,7 @@ void tri_insertion_acc(COLUMN* col)//implémente l'algorithme de tri par inserti
     }
 }
 
-void tri_insertion_dec(COLUMN* col)//implémente l'algorithme de tri par insertion
-//on a en paramètre la colonne a trier
-//On ne renvoie rien car le tri se fait dans la fonction
-{
-    for(int i=1;i<col->TL;i++)
-    {
-        int j = i-1;
-        while(j>0 && comparaison(col,i,j))
-        {
-            col->index[j+1] = col->index[j];
-            j--;
-        }
-        col->index[j+1] = col->index[i];
-    }
-}
+
 
 
 
@@ -536,18 +492,12 @@ void sort(COLUMN* col, int sort_dir)//trie les données dans une colonne
 {
     if(col->valid_index == 0)
     {
-        if(sort_dir==0)
-            quicksort_acc(col,0,col->TL-1);
-        else
-            quicksort_dec(col,0,col->TL-1);
+        quicksort(col,0,col->TL-1);
     }
     else
     if(col->valid_index == -1)
     {
-        if(sort_dir == 0)
-            tri_insertion_acc(col);
-        else
-            tri_insertion_dec(col);
+        tri_insertion(col);
     }
 
     col->valid_index = 1;

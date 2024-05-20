@@ -33,6 +33,7 @@ printf("13) Afficher tout le CDataframe trie\n");
 printf("14) Choisir le sens de tri d'une colonne\n");
 printf("15) Verifier si l'index d'une colonne est valide\n");
 printf("16) Suprimmer l'index d'une colonne\n");
+printf("17) Afficher une colonne triee\n");
 printf("\nSaisissez un nombre : ");
 
 scanf("%d", &nombre);
@@ -55,7 +56,7 @@ case 1:
 case 2:
 {
     if(df==NULL){
-        printf("le CDataframe n'est pas encore défini");
+        printf("le CDataframe n'est pas encore defini");
         break;
     }
 
@@ -66,7 +67,7 @@ case 2:
 case 3:
 {
     if(df==NULL){
-        printf("le CDataframe n'est pas encore défini");
+        printf("le CDataframe n'est pas encore defini");
         break;
     }
 
@@ -88,7 +89,7 @@ case 5:
         printf("le CDataframe n'est pas encore défini");
         break;
     }
-    printf("\n Entrez le type de la colonne parmis \n1:UNIT, \n2:INT, \n3:CHAR, \n4:FLOAT, \n5:DOUBLE, \n6:STRING:\n");
+    printf("\n Entrez le type de la colonne parmis \n2:UNIT, \n3:INT, \n4:CHAR, \n5:FLOAT, \n6:DOUBLE, \n7:STRING:\n");
     ENUM_TYPE type;
     scanf("%d",&type);
     add_column(df,type);
@@ -100,7 +101,7 @@ case 6:
         printf("le CDataframe n'est pas encore défini");
         break;
     }
-    int column_value = 0;
+    int column_value = -1;
     while (column_value < 0) {
     printf("Entrez le numero de la colonne : ");
     scanf("%d", &column_value);
@@ -161,7 +162,7 @@ case 12:{
         printf("le CDataframe n'est pas encore défini");
         break;
     }
-    int column_value = 0;
+    int column_value = -1;
     while (column_value < 0) {
         printf("Entrez le numero de la colonne : ");
         scanf("%d", &column_value);
@@ -182,7 +183,7 @@ case 14:{
         printf("le CDataframe n'est pas encore défini");
         break;
     }
-    int column_value = 0;
+    int column_value = -1;
     while (column_value < 0) {
         printf("Entrez le numero de la colonne : ");
         scanf("%d", &column_value);
@@ -195,7 +196,7 @@ case 15:{
         printf("le CDataframe n'est pas encore défini");
         break;
     }
-    int column_value = 0;
+    int column_value = -1;
     while (column_value < 0) {
         printf("Entrez le numero de la colonne :\n ");
         scanf("%d", &column_value);
@@ -219,12 +220,25 @@ case 16:{
         printf("le CDataframe n'est pas encore défini");
         break;
     }
-    int column_value = 0;
+    int column_value = -1;
     while (column_value < 0) {
         printf("Entrez le numero de la colonne : ");
         scanf("%d", &column_value);
     }
     erase_index(df->column[column_value]);
+    break;
+}
+case 17:{
+    if(df==NULL){
+        printf("le CDataframe n'est pas encore défini");
+        break;
+    }
+    int column_value = -1;
+    while (column_value < 0) {
+        printf("Entrez le numero de la colonne : ");
+        scanf("%d", &column_value);
+    }
+    print_col_by_index(df->column[column_value]);
     break;
 }
 default:
