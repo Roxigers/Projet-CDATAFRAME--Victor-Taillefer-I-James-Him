@@ -43,7 +43,7 @@ typedef struct {
 
 Cdataframe *create_Cdataframe();
 
-void add_column(Cdataframe* Cdata, ENUM_TYPE type, char *title);
+void add_column(Cdataframe* Cdata, ENUM_TYPE type);
 
 void insert_val_utilisateur(Cdataframe* Cdata);
 

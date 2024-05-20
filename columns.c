@@ -22,8 +22,7 @@ COLUMN *create_column(ENUM_TYPE type, char*title)//On crée une colonne
         printf("Erreur allocation titre de la colonne");
     }
     strcpy(new_column->title, title);
-    printf("dans quel sens la colonne sera-t-elle triee?  \n00 : ASCENDANT\n1 : DESCENDANT");
-    scanf("%d",&new_column->sort_dir);
+
     new_column->TP = 0;
     new_column->TL = 0;
     new_column->data = NULL;
