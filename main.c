@@ -10,67 +10,29 @@
 #define N 5
 
 int main() {
-    char str[128];
-    COLUMN *mycol = create_column(INT, "Column 1");
-    int a = 5, c = 9, b = 3;
-    insert_value(mycol, &a);
-    insert_value(mycol, &c);
-    insert_value(mycol, &b);
-    print_col(mycol);
-    print_col_by_index(mycol);
-    sort_direction(mycol);
+Cdataframe *df =NULL;
 
-    print_col_by_index(mycol);
-    print_col_by_index(mycol);
-    sort( mycol, mycol->sort_dir);
-    print_col_by_index(mycol);
-    printf("Occurrences de 'C': %d\n", nbr_occurence(mycol,&c));
-    printf("Occurence inferieur a A : %d\n", nbr_occurence_inf(mycol,&a));
-    printf("Occurence superieur a A : %d\n", nbr_occurence_sup(mycol,&a));
-
-    void* value = nbr_position(mycol,0);
-    if (value!=NULL)
-    {
-        printf("Valeur a la position 1 : %s\n", value);
-    }
-    else
-    {
-        printf("La valeur a la position 1 est NULL\n");
-    }
-
-    delete_column(&mycol);
-    Cdataframe *df = create_Cdataframe();
-    if (df == NULL)
-    {  //verifie qu'il a été créer ou pas*
-        printf("erreur dans la creation du  Cdataframe\n");
-        return 1;
-    }
-    insert_val_utilisateur(df);
-    affichage_Cdataframe((df));
-    return 0;
-
-
-
-/*
 int nombre = 0;
 
 while (1) { // Boucle infinie
 printf("\nVoici le menu : \n");
 printf("0) Quitter\n");
-printf("1) Remplissage du CDataframe à partir de saisies utilisateurs\n");
+printf("1) Remplissage du CDataframe a partir de saisies utilisateurs\n");
 printf("2) Afficher tout le CDataframe\n");
 printf("3) Afficher une partie des lignes du CDataframe selon une limite fournie par l'utilisateur\n");
 printf("4) Afficher une partie des colonnes du CDataframe selon une limite fournie par l'utilisateur\n");
-printf("5) Ajouter une ligne de valeurs au CDataframe\n");
-printf("6) Supprimer une ligne de valeurs du CDataframe\n");
-printf("7) Ajouter une colonne au CDataframe\n");
-printf("8) Supprimer une colonne du CDataframe\n");
-printf("9) Renommer le titre d'une colonne du CDataframe\n");
-printf("10) Vérifier l'existence d'une valeur (recherche) dans le CDataframe\n");
-printf("11) Accéder/remplacer la valeur se trouvant dans une cellule du CDataframe\n");
-printf("12) Afficher les noms des colonnes\n");
-printf("13) Afficher le nombre de lignes et de colonnes\n");
-printf("14) Analyser une valeur x\n");
+printf("5) Ajouter une colonne au CDataframe\n");
+printf("6) Supprimer une colonne du CDataframe\n");
+printf("7) Renommer le titre d'une colonne du CDataframe\n");
+printf("8) Verifier l'existence d'une valeur (recherche) dans le CDataframe\n");
+printf("9) Acceder/remplacer la valeur se trouvant dans une cellule du CDataframe\n");
+printf("10) Afficher les noms des colonnes\n");
+printf("11) Afficher le nombre de lignes et de colonnes\n");
+printf("12) Mettre a jour/trier l'index d'une colonne\n");
+printf("13) Afficher tout le CDataframe trie\n");
+printf("14) Choisir le sens de tri d'une colonne\n");
+printf("15) Verifier si l'index d'une colonne est valide\n");
+printf("16) Suprimmer l'index d'une colonne\n");
 printf("\nSaisissez un nombre : ");
 
 scanf("%d", &nombre);
@@ -80,51 +42,130 @@ switch (nombre) {
 // Quitter le programme
 return 0;
 case 1:
-
-break;
+    {
+    df = create_Cdataframe();
+    if (df == NULL)
+        {  //verifie qu'il a été créer ou pas*
+            printf("erreur dans la creation du  Cdataframe\n");
+            return 1;
+        }
+    insert_val_utilisateur(df);
+    break;
+    }
 case 2:
+{
+    display_Cdataframe(df);
+    break;
+}
 
 case 3:
-
-break;
-case 4:
-
-break;
-case 5:
-printf("Pas encore fait\n");
-break;
-case 6:
-
-break;
-case 7:
-
-break;
-case 8: {
-int column_value = 0;
-while (column_value <= 0) {
-printf("Enter the column value : ");
-scanf("%d", &column_value);
+{
+    display_row(df);
+    break;
 }
-delete_column(&df->column[column_value]);
-break;
+case 4:
+{
+    display_column(df);
+    break;
+}
+case 5:
+{
+    //printf("Entrez le titre de la colonne :\n");
+    //char* tit;
+    //gets(tit);
+    printf("\n Entrez le type de la colonne parmis \n1:UNIT, \n2:INT, \n3:CHAR, \n4:FLOAT, \n5:DOUBLE, \n6:STRING:\n");
+    ENUM_TYPE type;
+    scanf("%d",&type);
+    add_column(df,type, "tit");
+    break;
+}
+case 6: {
+    int column_value = 0;
+    while (column_value <= 0) {
+    printf("Entrez le numero de la colonne : ");
+    scanf("%d", &column_value);
+    }
+    delete_column(&df->column[column_value]);
+    for(int i=column_value;i<df->nb_column-1;i++)
+        df->column[column_value]=df->column[column_value+1];
+    df->nb_column = df->nb_column-1;
+    break;
+}
+case 7:
+{
+    change_title(df);
+    break;
+}
+case 8:
+{
+    search_value(df);
+    break;
 }
 case 9:
-
-break;
+{
+    change_value(df);
+    break;
+}
 case 10:
-
-break;
-case 11:
-
-break;
-case 12:
-
-break;
-case 13:
-
-break;
-case 14:
-break;
+{
+    display_column_names(df);
+    break;
+}
+case 11: {
+    display_row_column(df);
+    break;
+}
+case 12:{
+    int column_value = 0;
+    while (column_value <= 0) {
+        printf("Entrez le numero de la colonne : ");
+        scanf("%d", &column_value);
+    }
+    update_index(df->column[column_value]);
+    break;
+}
+case 13:{
+    display_sorted_Cdataframe(df);
+    break;
+}
+case 14:{
+    int column_value = 0;
+    while (column_value <= 0) {
+        printf("Entrez le numero de la colonne : ");
+        scanf("%d", &column_value);
+    }
+    sort_direction(df->column[column_value]);
+    break;
+}
+case 15:{
+    int column_value = 0;
+    while (column_value <= 0) {
+        printf("Entrez le numero de la colonne :\n ");
+        scanf("%d", &column_value);
+    }
+    int id;
+    id = check_index(df->column[column_value]);
+    if(id==1)
+        printf("l'index est valide\n");
+    else {
+        if (id == 0) {
+            printf("l'index n'existe pas\n");
+        }
+        else {
+            printf("l'index est invalide\n");
+        }
+    }
+    break;
+}
+case 16:{
+    int column_value = 0;
+    while (column_value <= 0) {
+        printf("Entrez le numero de la colonne : ");
+        scanf("%d", &column_value);
+    }
+    erase_index(df->column[column_value]);
+    break;
+}
 default:
 printf("La saisie est invalide.\n");
 break;
@@ -132,6 +173,5 @@ break;
 }
 return 0;
 }
-*/
 
-}
+

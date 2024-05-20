@@ -4,11 +4,7 @@
 
 #ifndef PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H
 #define PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H
-/**
- * Create a column
- * @param1 : Column title
- * @return : Pointer to created column
- */
+
 enum enum_type
 {
     NULLVAL = 1, UNIT, INT, CHAR, FLOAT, DOUBLE, STRING
@@ -22,13 +18,12 @@ union column_type{
     float float_value;
     double double_value;
     char* string_value;
-    void* struct_value;
 };
 typedef union column_type COL_TYPE ;
 
 typedef struct
 {
-    char* titre;
+    char* title;
     unsigned int TP;
     unsigned int TL;
     COL_TYPE **data;
@@ -48,23 +43,26 @@ typedef struct {
 
 Cdataframe *create_Cdataframe();
 
-void ajout_colonne(Cdataframe* Cdata, ENUM_TYPE type, char *title);
+void add_column(Cdataframe* Cdata, ENUM_TYPE type, char *title);
 
 void insert_val_utilisateur(Cdataframe* Cdata);
 
-void affichage_Cdataframe(Cdataframe *Cdata);
+void display_Cdataframe(Cdataframe *Cdata);
 
-void ligne_affichage(Cdataframe* Cdata);
+void display_sorted_Cdataframe(Cdataframe *Cdata);
 
-void colonne_affichage(Cdataframe *Cdata);
+void display_row(Cdataframe* Cdata);
 
-void changer_titre(Cdataframe *Cdata);
+void display_column(Cdataframe *Cdata);
 
-void rechercher_valeur(Cdataframe* Cdata);
+void change_title(Cdataframe *Cdata);
 
-void changer_valeur(Cdataframe *df);
+void search_value(Cdataframe* Cdata);
 
-void affichage_nbr_ligne_colonne(Cdataframe* Cdata);
+void change_value(Cdataframe *df);
 
+void display_row_column(Cdataframe* Cdata);
+
+void display_column_names(Cdataframe* df);
 
 #endif //PROJET_CDATAFRAME__VICTOR_TAILLEFER_I_JAMES_HIM_FUNCTIONS_H

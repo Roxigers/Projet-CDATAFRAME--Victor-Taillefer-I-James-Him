@@ -14,10 +14,10 @@ Cdataframe *create_Cdataframe()
     return Cdataframe;
 }
 
-void ajout_colonne(Cdataframe *Cdataframe, ENUM_TYPE type, char *title) {
+void add_column(Cdataframe *Cdataframe, ENUM_TYPE type, char *title) {
     COLUMN *new_column = create_column(type, title);
     if (new_column == NULL) {
-        printf("Erreur lors de la création de la colonne.\n");
+        printf("Erreur lors de la creation de la colonne.\n");
         return;
     }
 
@@ -34,19 +34,19 @@ void ajout_colonne(Cdataframe *Cdataframe, ENUM_TYPE type, char *title) {
 }
 
 void insert_val_utilisateur(Cdataframe *Cdata) {
-    int nb_lignes, nb_colonnes;
+    int nb_row, nb_column;
 
     do {
         printf("Entrez le nombre de lignes du CDataframe : ");
-        scanf("%d", &nb_lignes);
-    }while (nb_lignes<=0);
+        scanf("%d", &nb_row);
+    }while (nb_row<=0);
 
     do {
         printf("Entrez le nombre de colonnes du CDataframe : ");
-        scanf("%d", &nb_colonnes);
-    }while (nb_colonnes<=0);
+        scanf("%d", &nb_column);
+    }while (nb_column<=0);
 
-    for (int i = 0; i < nb_colonnes; i++) {
+    for (int i = 0; i < nb_column; i++) {
         char title[100];
         ENUM_TYPE type;
 
@@ -59,33 +59,33 @@ void insert_val_utilisateur(Cdataframe *Cdata) {
         scanf("%d", &type_choice);
         type = type_choice;
 
-        ajout_colonne(Cdata, type, title);
+        add_column(Cdata, type, title);
     }
 
-    for (int i = 0; i < nb_lignes; i++) {
+    for (int i = 0; i < nb_row; i++) {
         printf("Ligne %d :\n", i + 1);
-        for (int j = 0; j < nb_colonnes; j++) {
+        for (int j = 0; j < nb_column; j++) {
             COLUMN *col = Cdata->column[j];
-            printf("Saisissez une valeur pour la colonne '%s':\n", col->titre);
+            printf("Saisissez une valeur pour la colonne '%s':\n", col->title);
 
             switch (col->column_type) {
                 case UNIT: {
                     unsigned int value;
-                    printf("Entier non signé: ");
+                    printf("Entier non signe: ");
                     scanf("%u", &value);
                     insert_value(col, &value);
                     break;
                 }
                 case INT: {
                     int value;
-                    printf("Entier signé: ");
+                    printf("Entier signe: ");
                     scanf("%d", &value);
                     insert_value(col, &value);
                     break;
                 }
                 case CHAR: {
                     char value;
-                    printf("Caractère: ");
+                    printf("Caractere: ");
                     scanf(" %c", &value);
                     getchar();
                     insert_value(col, &value);
@@ -107,7 +107,7 @@ void insert_val_utilisateur(Cdataframe *Cdata) {
                 }
                 case STRING: {
                     char value[128];
-                    printf("Chaîne de caractères : ");
+                    printf("Chaîne de caracteres : ");
                     scanf("%s", value);
                     insert_value(col, value);
                     break;
@@ -117,24 +117,24 @@ void insert_val_utilisateur(Cdataframe *Cdata) {
     }
 }
 
-void affichage_Cdataframe(Cdataframe *Cdata) {
+void display_Cdataframe(Cdataframe *Cdata) {
 
     for (int i = 0; i < Cdata->nb_column; i++) {
-        printf("%-30s", Cdata->column[i]->titre);
+        printf("%-30s", Cdata->column[i]->title);
     }
     printf("\n");
 
-    int ligne_max = 0;
+    int max_row = 0;
     for (int i = 0; i < Cdata->nb_column; i++) {
-        if (Cdata->column[i]->TL > ligne_max) {
-            ligne_max = Cdata->column[i]->TL;
+        if (Cdata->column[i]->TL > max_row) {
+            max_row = Cdata->column[i]->TL;
         }
     }
-    for (int ligne = 0; ligne < ligne_max; ligne++) {
+    for (int row = 0; row < max_row; row++) {
         for (int i = 0; i < Cdata->nb_column; i++) {
-            if (ligne < Cdata->column[i]->TL) {
+            if (row < Cdata->column[i]->TL) {
                 char str[100];
-                convert_value(Cdata->column[i], ligne, str, sizeof(str));
+                convert_value(Cdata->column[i], row, str, sizeof(str));
                 printf("%-30s", str);
             } else {
                 printf("%-30s", "");
@@ -144,21 +144,49 @@ void affichage_Cdataframe(Cdataframe *Cdata) {
     }
 }
 
-void ligne_affichage(Cdataframe *Cdata) {
-    int limite_ligne = 0;
-    while (limite_ligne <= 0) {
+void display_sorted_Cdataframe(Cdataframe *Cdata) {
+
+    for (int i = 0; i < Cdata->nb_column; i++) {
+        printf("%-30s", Cdata->column[i]->title);
+    }
+    printf("\n");
+
+    int max_row = 0;
+    for (int i = 0; i < Cdata->nb_column; i++) {
+        if (Cdata->column[i]->TL > max_row) {
+            max_row = Cdata->column[i]->TL;
+        }
+    }
+    for (int row = 0; row < max_row; row++) {
+        for (int i = 0; i < Cdata->nb_column; i++) {
+            if (row < Cdata->column[i]->TL) {
+                char str[100];
+                convert_value(Cdata->column[i], Cdata->column[i]->index[row], str, sizeof(str));
+                printf("%-30s", str);
+            } else {
+                printf("%-30s", "");
+            }
+        }
+        printf("\n");
+    }
+}
+
+
+void display_row(Cdataframe *Cdata) {
+    int row_lim = 0;
+    while (row_lim <= 0) {
         printf("Entrez la valeur de la limite en ligne: ");
-        scanf("%d", &limite_ligne);
+        scanf("%d", &row_lim);
     }
 
 
     for (int i = 0; i < Cdata->nb_column; i++) {
-        printf("%-30s", Cdata->column[i]->titre); // séparé d'une largeur d'au moins 30 caractères sur la gauche
+        printf("%-30s", Cdata->column[i]->title); // séparé d'une largeur d'au moins 30 caractères sur la gauche
     }
     printf("\n");
 
 
-    for (int i = 0; i < limite_ligne && i < Cdata->column[0]->TL; i++) {
+    for (int i = 0; i < row_lim && i < Cdata->column[0]->TL; i++) {
         for (int j = 0; j < Cdata->nb_column; j++) {
             char str[128];
             convert_value(Cdata->column[j], i, str, sizeof(str));
@@ -168,15 +196,15 @@ void ligne_affichage(Cdataframe *Cdata) {
     }
 }
 
-void colonne_affichage(Cdataframe *Cdata) {
+void display_column(Cdataframe *Cdata) {
     int lim_column = 0;
     while (lim_column <= 0) {
-        printf("Enter the column limit value: ");
+        printf("Entrez la valeur de la limite en colonne: ");
         scanf("%d", &lim_column);
     }
 
     for (int i = 0; i < lim_column && i < Cdata->nb_column; i++) {
-        printf("%-30s", Cdata->column[i]->titre);
+        printf("%-30s", Cdata->column[i]->title);
     }
     printf("\n");
 
@@ -190,24 +218,24 @@ void colonne_affichage(Cdataframe *Cdata) {
     }
 }
 
-void changer_titre(Cdataframe *Cdata) {
-    int valeur_colonne_titre = 0;
+void change_title(Cdataframe *Cdata) {
+    int title_value = 0;
     char nouveau_titre[100];
 
-    while (valeur_colonne_titre < 1 || valeur_colonne_titre > Cdata->nb_column) {
-        printf("Quelle colonne voulez-vous changer le titre de 1 à %d : ", Cdata->nb_column);
-        scanf("%d", &valeur_colonne_titre);
+    while (title_value < 1 || title_value > Cdata->nb_column) {
+        printf("Quelle colonne voulez-vous changer le titre de 0 a %d : ", Cdata->nb_column-1);
+        scanf("%d", &title_value);
     }
 
-    printf("Le nouveau titre '%s': ", Cdata->column[valeur_colonne_titre - 1]->titre); //-1 psk les tableaux commencent à 0
+    printf("Le nouveau titre '%s': ", Cdata->column[title_value - 1]->title); //-1 psk les tableaux commencent à 0
     scanf("%s", nouveau_titre);
 
-    strcpy(Cdata->column[valeur_colonne_titre - 1]->titre, nouveau_titre); //On copie le nouveau dans l'ancien titre
+    strcpy(Cdata->column[title_value - 1]->title, nouveau_titre); //On copie le nouveau dans l'ancien titre
 }
 
-void rechercher_valeur(Cdataframe *Cdata) {
+void search_value(Cdataframe *Cdata) {
 
-    printf("Entrez la valeur recherchée : ");
+    printf("Entrez la valeur recherchee : ");
     char value[100];
     scanf("%s", value);
 
@@ -224,7 +252,7 @@ void rechercher_valeur(Cdataframe *Cdata) {
             case CHAR: {
                 int count = nbr_occurence(col, value);
                 if (count > 0) {
-                    printf("La valeur %s existe dans la colonne '%s'.\n", value, col->titre);
+                    printf("La valeur %s existe dans la colonne '%s'.\n", value, col->title);
                     cpt = 1;
                 }
                 break;
@@ -235,7 +263,7 @@ void rechercher_valeur(Cdataframe *Cdata) {
                     char str[128];
                     convert_value(col, j, str, sizeof(str));
                     if (strcmp(str, value) == 0) { //permet de comparer deux chaines de caractères
-                        printf("La valeur %s existe dans la colonne '%s'.\n", value, col->titre);
+                        printf("La valeur %s existe dans la colonne '%s'.\n", value, col->title);
                         cpt = 1;
                         break;
                     }
@@ -250,69 +278,78 @@ void rechercher_valeur(Cdataframe *Cdata) {
     }
 }
 
-void changer_valeur(Cdataframe *df) { //je n'arrive pas a accédé a la première valeur
-    int ligne_valeur = 0;
-    while (ligne_valeur <= 0) {
+void change_value(Cdataframe *df) { //je n'arrive pas a accédé a la première valeur
+    int row_value = -1;
+    while (row_value < 0) {
         printf("Entrez la valeur de la ligne : ");
-        scanf("%d", &ligne_valeur);
+        scanf("%d", &row_value);
     }
 
-    int colonne_valeur = 0;
-    while (colonne_valeur <= 0) {
+    int column_value = 0;
+    while (column_value < 0) {
         printf("Entrez la valeur de la colonne : ");
-        scanf("%d", &colonne_valeur);
+        scanf("%d", &column_value);
     }
 
     //On regarde la valeur de la colonne qui change et on demande en fonction du type des données
-    switch (df->column[colonne_valeur]->column_type) {
+    switch (df->column[column_value]->column_type) {
         case UNIT:
         {
             int valeur;
-            printf("Entrez la nouvelle valeur (entier) : ");
+            printf("Entrez la nouvelle valeur (entier positif) : ");
             scanf("%d", &valeur);
-            *((int *)df->column[colonne_valeur]->data[ligne_valeur]) = valeur;
+            *((int *)df->column[column_value]->data[row_value]) = valeur;
             break;
         }
         case INT: {
             int valeur;
             printf("Entrez la nouvelle valeur (entier) : ");
             scanf("%d", &valeur);
-            *((int *)df->column[colonne_valeur]->data[ligne_valeur]) = valeur;
+            *((int *)df->column[column_value]->data[row_value]) = valeur;
             break;
         }
         case CHAR: {
             char valeur;
-            printf("Entrez la nouvelle valeur (caractère) : ");
+            printf("Entrez la nouvelle valeur (caractere) : ");
             scanf(" %c", &valeur);
-            *((char *)df->column[colonne_valeur]->data[ligne_valeur]) = valeur;
+            *((char *)df->column[column_value]->data[row_value]) = valeur;
             break;
         }
         case FLOAT: {
             float valeur;
             printf("Entrez la nouvelle valeur (flottant) : ");
             scanf("%f", &valeur);
-            *((float *)df->column[colonne_valeur]->data[ligne_valeur]) = valeur;
+            *((float *)df->column[column_value]->data[row_value]) = valeur;
             break;
         }
         case DOUBLE: {
             double valeur;
             printf("Entrez la nouvelle valeur (double) : ");
             scanf("%lf", &valeur);
-            *((double *)df->column[colonne_valeur]->data[ligne_valeur]) = valeur;
+            *((double *)df->column[column_value]->data[row_value]) = valeur;
             break;
         }
         case STRING: {
             char valeur[100];
-            printf("Entrez la nouvelle valeur (chaine de caractères) : ");
+            printf("Entrez la nouvelle valeur (chaine de caracteres) : ");
             scanf("%s", valeur);
-            strcpy((char *)df->column[colonne_valeur]->data[ligne_valeur], valeur);
+            strcpy((char *)df->column[column_value]->data[row_value], valeur);
             break;
         }
     }
+    df->column[column_value]->valid_index=0;
 }
 
-void affichage_nbr_ligne_colonne(Cdataframe* Cdata)
+void display_row_column(Cdataframe* Cdata)
 {
     printf("Le nombre de lignes est : %d\n",Cdata->column[0]->TL);
     printf("Le nombre de colonnes est : %d", Cdata->nb_column);
+}
+
+void display_column_names(Cdataframe* df)
+{
+    for(int i=0;i<df->nb_column;i++)
+    {
+        printf("Column %d: %s\n",i,df->column[i]->title);
+    }
 }
